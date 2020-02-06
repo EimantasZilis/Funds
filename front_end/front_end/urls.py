@@ -15,11 +15,14 @@ Including another URLconf
 """
 import debug_toolbar
 from django.conf import settings
-from django.conf.urls import include
+from django.urls import include, path
 from django.contrib import admin
 from django.urls import path
 
+from front_end import views
+
 urlpatterns = [
+    path("", views.HomePage.as_view(), name="home"),
     path('admin/', admin.site.urls),
 ]
 
