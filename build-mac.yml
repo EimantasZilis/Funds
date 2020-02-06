@@ -6,7 +6,9 @@ dependencies:
   - python>=3.7                   # PSF
   - pip==20.0.2                   # MIT
   - pip:
+    - bcrypt
     - django==3.0.3               # BSD
+    - django[argon2]
     - django-bootstrap4==1.1.1    # BSD
     - django-braces==1.14.0       # BSD
     - django-debug-toolbar==2.2   # BSD
