@@ -24,6 +24,8 @@ from front_end import views
 urlpatterns = [
     path("", views.HomePage.as_view(), name="home"),
     path('admin/', admin.site.urls),
+    path('registration/', include('registration.urls', namespace='registration')),
+    path('registration/', include('django.contrib.auth.urls')),
 ]
 
 if settings.DEBUG:
