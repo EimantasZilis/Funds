@@ -1,0 +1,11 @@
+body {
+    font-family: 'Lato', sans-serif;
+    background-color: #f8f8f8;
+}
+
+.navbar {
+    background-color: white;
+    -webkit-box-shadow: 0 8px 6px -6px #999;
+    -moz-box-shadow: 0 8px 6px -6px #999;
+     box-shadow: 0 8px 6px -6px rgba(0,0,0,.2);
+}
