@@ -130,5 +130,5 @@ dmypy.json
 .pyre/
 
 # CSS files
-*.css
-*.css.map
+front_end/static/*.css
+front_end/static/*.css.map
