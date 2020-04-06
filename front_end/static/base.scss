@@ -1,0 +1,105 @@
+// Fonts
+$body-font: 'Lato', sans-serif;
+$body-font-size: 14;
+
+// Colour definitions
+$colour-text: #4d4d4d;
+$colour-border: #777777;
+$colour-active: #f5f4f4;
+
+
+body {
+  background: white;
+  font-family: $body-font;
+  font-size: $body-font-size;
+} 
+
+.fas {
+  position: relative;
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 20px;
+  padding: 0 5px 0 5px;
+}
+
+.navbar.navbar-clean {
+  // Navbar background colours
+  border-bottom: 1px solid $colour-border;
+  background-color: white;
+
+  .nav-link{
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .navbar-brand{
+    font-size: 20px;
+    font-weight: bold;
+    color: $colour-text;
+    margin-right: 25px;
+    margin-left: 23px;
+  }
+
+  a {
+    // Navbar link colour
+    color: $colour-text;
+  }
+  
+  a i {
+    // Dropdown arrow position
+    position: relative;
+    left: 1px;
+  }
+
+  ul > li > a:hover,
+  li.open a {
+    // Text colour when hovered on
+    color: black;
+  }
+
+  .dropdown-menu {
+    position: absolute;
+  }
+}
+
+.dropdown {
+  position: relative;
+
+  &-menu {
+    font-size: 14px;
+    position: absolute;
+    z-index: 1000;
+  
+    top: 100%;
+    width: 100%;
+    left: 0;
+
+    display: none;
+    float: left;
+    min-width: 200px;
+    padding: 5px 0;
+    margin: 8px 0 0;
+    
+    border-left: 1px solid $colour-border;
+    border-right: 1px solid $colour-border;
+    border-bottom: 1px solid $colour-border;
+    border-radius: 3px;
+
+    &-right {
+      left: auto;
+      right: 0;
+    }
+
+    &-left {
+      right: auto;
+      left: 0;
+    }
+  }
+
+  &-menu > a:hover{
+    // Hovered dropdown
+    background: $colour-active;
+    color:black;
+  }
+}

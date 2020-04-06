@@ -128,3 +128,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# CSS files
+front_end/static/*.css
+front_end/static/*.css.map
