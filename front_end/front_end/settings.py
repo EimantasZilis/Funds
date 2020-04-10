@@ -134,8 +134,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [Path(BASE_DIR) / "static"]
 
-LOGIN_REDIRECT_URL = '/registration/logged_in'
-LOGOUT_REDIRECT_URL = '/registration/logged_out'
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = '/registration/login'
 
 INTERNAL_IPS = ['127.0.0.1']
 

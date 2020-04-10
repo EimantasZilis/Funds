@@ -10,8 +10,3 @@ class SignupView(CreateView):
     success_url = reverse_lazy('login')
     template_name = 'registration/signup.html'
 
-class LoggedOutView(TemplateView):
-    template_name = "registration/logout.html"
-
-class LoggedInView(TemplateView):
-    template_name = "registration/logged_in.html"
