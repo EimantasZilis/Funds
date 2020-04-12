@@ -6,16 +6,16 @@
     <h1>FUNDS</h1>
     
     <div class="tabs">
-        <span class="tab active"><a href="#signin">Sign in</a></span>
-        <span class="tab"><a href="#signup">Sign up</a></span>
+        <span class="tab active"><a href="{% url 'registration:login' %}">Sign in</a></span>
+        <span class="tab"><a href="{% url 'registration:signup' %}">Sign up</a></span>
     </div>
 
-    <!-- <div class="input_form"> -->
+    <div class="input_form">
         <form method="POST">
             {% csrf_token %}
-            {% bootstrap_form form %}
-            <input type="submit" class="btn btn-default" value="Login">
+            {{ form.as_table }}
+                <input type="submit" class="confirm-button" value="Sign in">
         </form>
-    <!-- </div> -->
+    </div>
 </div>
 {% endblock  %} 
