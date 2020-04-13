@@ -5,7 +5,7 @@ $body-font-size: 14;
 // Colour definitions
 // $colour-text: #4d4d4d;
 $colour-text: black;
-$colour-border: #777777;
+$colour-border: #797979;
 $colour-active: #f5f4f4;
 
 
@@ -15,9 +15,9 @@ $colour-active: #f5f4f4;
 $bg: #f8f8f8;
 $white: #ffffff;
 $blue: #263238;
-$grey: #d9d9d9;
-$plchldr: #999999;
-
+$grey1: #d9d9d9;
+$grey2: #8d8d8d;
+$grey3: #505050;
 
 
 body {
@@ -30,7 +30,7 @@ body {
 .tabs {
   width: 100%;
   margin-bottom: 29px;
-  border-bottom: 1px solid $grey;
+  border-bottom: 1px solid $grey1;
 
   .tab {
     display: inline-block;
@@ -38,15 +38,12 @@ body {
     padding: 20px 15px 10px;
     cursor: pointer;
     letter-spacing: 0;
-    border-bottom: 1px solid $grey;
-    // @include user-select(none);
-    transition: all 0.1s ease-in-out;
+    border-bottom: 1px solid $grey1;
     a {
         font-size: 11px;
         text-decoration: none;
         text-transform: uppercase;
-        color: $grey;
-        transition: all 0.1s ease-in-out;
+        color: $grey1;
     }
     &.active,
     &:hover {
@@ -62,47 +59,71 @@ body {
 
 
 .input_form {
-  &.inpt {
-    font-size: 14px;
+  input {
     display: block;
+    margin-bottom: 10px;
+    padding: 16px 13px;
+    height: 40px;
+    width: 100%;
+
+    color: $grey3;
+    font-size: 14px;  
+    border: 1px solid $grey1;
+
+    &:focus{
+      outline: none;
+      border: 1px solid $grey2;
+    }
+  }
+
+  .button-position{
+    position: absolute;
+    top: 500px;
+    margin: 0 auto;
+    width: 248px;
+  }
+
+  .confirm-button {
+    cursor: pointer;
+    display: block;
+
     width: 100%;
     height: 42px;
-    margin-bottom: 12px;
-    padding: 16px 13px;
-    color: $plchldr;
-    border: 1px solid $grey;
+
+    font-size: 12px;
+    line-height: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+
+    color: $blue;
+    border: 1px solid $blue;
     background: transparent;
-    // @include border-radius(2px);
-    // @include placeholder {
-    //     font-size: 14px;
-    //     color: $plchldr;
-    //     font-family: "Lato", sans-serif;
-    // }
-    &:focus {
-        border-color: $plchldr;
+
+    &:hover {
+        background-color: $blue;
+        color: $white;
     }
   }
 }
 
 
 .login {
-  border: 1px solid rgb(218, 218, 218);
+  border: 1px solid #dadada;
   width: 350px;
-  height: 400px;
+  height: 470px;
   padding: 50px 50px;
-  margin: 12% auto;
+  margin: 120px auto;
   background-color: white;
 
   h1 {
-    // text-align: center;
     font-size: 18px;
     font-weight: 700;
     margin-bottom: 23px;
     text-align: center;
     text-indent: 6px;
-    letter-spacing: 7px;
+    letter-spacing: 5px;
     text-transform: uppercase;
-    color: black;
+    color: $blue;
   }
 }
 

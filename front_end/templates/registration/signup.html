@@ -14,7 +14,9 @@
         <form method="POST">
             {% csrf_token %}
             {{ form.as_table }}
-            <input type="submit" class="confirm-button" value="Sign up">
+            <div class="button-position">
+                <input type="submit" class="confirm-button" value="Sign up">
+            </div>
         </form>
     </div>
 </div>
