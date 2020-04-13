@@ -32,27 +32,28 @@ body {
   margin-bottom: 29px;
   border-bottom: 1px solid $grey1;
 
-  .tab {
-    display: inline-block;
-    margin-bottom: -1px;
-    padding: 20px 15px 10px;
-    cursor: pointer;
-    letter-spacing: 0;
-    border-bottom: 1px solid $grey1;
-    a {
-        font-size: 11px;
-        text-decoration: none;
-        text-transform: uppercase;
-        color: $grey1;
-    }
-    &.active,
-    &:hover {
-        a {
-            color: $blue;
-        }
-    }
-    &.active {
+  /// NEW OPTION:
+  a{
+    font-size: 11px;
+    text-decoration: none;
+    text-transform: uppercase;
+    color: $grey1;
+
+    .tab {
+      display: inline-block;
+      margin-bottom: -1px;
+      padding: 20px 15px 10px;
+      cursor: pointer;
+      letter-spacing: 0;
+      border-bottom: 1px solid $grey1;
+
+      &.active {
         border-bottom: 1px solid $blue;
+        color: $blue;
+      }
+      &:hover {
+        color: $blue;
+      }
     }
   }
 }
