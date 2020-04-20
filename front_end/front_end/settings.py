@@ -140,5 +140,5 @@ LOGOUT_REDIRECT_URL = '/registration/login'
 INTERNAL_IPS = ['127.0.0.1']
 
 # Email config. Save them as files in 'sent_emails' directory for now
-EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
-EMAIL_FILE_PATH = "temp/sent_emails/"
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH = "temp/sent_emails"

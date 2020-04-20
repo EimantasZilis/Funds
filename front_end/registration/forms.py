@@ -37,3 +37,13 @@ class UserPasswordResetForm(PasswordResetForm):
         widget=EmailInput(attrs={'placeholder':'Email', "class": "input_form"}),
         label=False
     )
+
+class UserPasswordResetConfirmForm(SetPasswordForm):
+    new_password1 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'placeholder': 'Password', "class": "input_form"}),
+        label=False
+    )
+    new_password2 = forms.CharField(
+        widget=forms.PasswordInput(attrs={'placeholder': 'Password confirmation', "class": "input_form"}),
+        label=False
+    )
