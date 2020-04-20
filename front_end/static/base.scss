@@ -3,14 +3,9 @@ $body-font: 'Lato', sans-serif;
 $body-font-size: 14;
 
 // Colour definitions
-// $colour-text: #4d4d4d;
 $colour-text: black;
 $colour-border: #797979;
 $colour-active: #f5f4f4;
-
-
-// @import "compass/css3";
-
 
 $bg: #f8f8f8;
 $white: #ffffff;
@@ -32,7 +27,6 @@ body {
   margin-bottom: 29px;
   border-bottom: 1px solid $grey1;
 
-  /// NEW OPTION:
   a{
     font-size: 11px;
     text-decoration: none;
@@ -77,22 +71,15 @@ body {
     }
   }
 
-  .button-position{
-    position: absolute;
-    top: 500px;
-    margin: 0 auto;
-    width: 248px;
-  }
-
   .confirm-button {
     cursor: pointer;
     display: block;
 
     width: 100%;
-    height: 42px;
+    height: 40px;
 
     font-size: 12px;
-    line-height: 12px;
+    line-height: 9px;
     letter-spacing: 2px;
     text-transform: uppercase;
 
@@ -117,15 +104,68 @@ body {
   background-color: white;
 
   h1 {
-    font-size: 18px;
+    font-size: 28px;
     font-weight: 700;
     margin-bottom: 23px;
     text-align: center;
     text-indent: 6px;
-    letter-spacing: 5px;
+    letter-spacing: 4px;
     text-transform: uppercase;
     color: $blue;
+
+    a {
+      text-decoration: None;
+      color: inherit;
+    }
   }
+
+
+  h2 {
+    
+    font-size: 16px;
+    text-align: center;
+    color: $blue;
+
+    width: 100%;
+    margin-bottom: 40px;
+    border-bottom: 1px solid $grey1;
+
+    padding-top: 10px;
+    padding-bottom: 17px;
+  }
+
+  .text {
+    p {
+      text-align: justify;
+      font-size: 13px;
+    }
+  }
+
+  .button-position{
+    position: absolute;
+    top: 500px;
+    margin: 0 auto;
+    width: 248px;
+  }
+
+  .password-reset {
+    text-align: center;
+    margin-top: 155px;
+
+    p {
+      position: relative;
+      font-size: 12px;
+  
+      a {  
+        color: $grey3;
+        &:hover{
+          color: $blue;
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+  
 }
 
 
