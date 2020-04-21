@@ -24,8 +24,9 @@ body {
 
 .tabs {
   width: 100%;
-  margin-bottom: 29px;
+  margin-bottom: 25px;
   border-bottom: 1px solid $grey1;
+  text-align: center;
 
   a{
     font-size: 11px;
@@ -97,7 +98,7 @@ body {
 
 .login {
   border: 1px solid #dadada;
-  width: 350px;
+  width: 330px;
   height: 470px;
   padding: 50px 50px;
   margin: 120px auto;
@@ -127,11 +128,7 @@ body {
     color: $blue;
 
     width: 100%;
-    margin-bottom: 40px;
-    border-bottom: 1px solid $grey1;
-
-    padding-top: 10px;
-    padding-bottom: 17px;
+    margin-bottom: 20px;
   }
 
   .text {
@@ -145,7 +142,7 @@ body {
     position: absolute;
     top: 500px;
     margin: 0 auto;
-    width: 248px;
+    width: 228px;
   }
 
   .password-reset {
