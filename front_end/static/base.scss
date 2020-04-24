@@ -99,9 +99,10 @@ body {
 .login {
   border: 1px solid #dadada;
   width: 330px;
-  height: 470px;
+  height: 410px;
+
   padding: 50px 50px;
-  margin: 120px auto;
+  margin: 200px auto;
   background-color: white;
 
   h1 {
@@ -138,16 +139,8 @@ body {
     }
   }
 
-  .button-position{
-    position: absolute;
-    top: 500px;
-    margin: 0 auto;
-    width: 228px;
-  }
-
   .password-reset {
     text-align: center;
-    margin-top: 155px;
 
     p {
       position: relative;
