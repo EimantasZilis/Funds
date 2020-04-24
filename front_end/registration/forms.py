@@ -1,13 +1,15 @@
 from django import forms
-from django.forms.widgets import PasswordInput, TextInput, EmailInput
-from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import AuthenticationForm, SetPasswordForm, UserCreationForm, PasswordResetForm
+from django.contrib.auth.forms import (
+    AuthenticationForm,
+    PasswordResetForm,
+    SetPasswordForm,
+    UserCreationForm
+)
+from django.forms.widgets import EmailInput, PasswordInput, TextInput 
+
+from .models import MyUser
 
 class UserCreateForm(UserCreationForm):
-    username = forms.CharField(
-        widget=TextInput(attrs={'placeholder': 'Username', "class": "input_form"}),
-        label=False
-    )
     email = forms.CharField(
         widget=EmailInput(attrs={'placeholder':'Email', "class": "input_form"}),
         label=False
@@ -20,17 +22,24 @@ class UserCreateForm(UserCreationForm):
         widget=forms.PasswordInput(attrs={'placeholder': 'Password confirmation', "class": "input_form"}),
         label=False
     )
+    class Meta:
+        model = MyUser
+        fields = ('email', 'password1', 'password2')
 
 
 class UserLoginForm(AuthenticationForm):
     username = forms.CharField(
-        widget=TextInput(attrs={'placeholder': 'Username', "class": "input_form"}),
+        widget=EmailInput(attrs={'placeholder':'Email', "class": "input_form"}),
         label=False
     )
     password = forms.CharField(
         widget=PasswordInput(attrs={'placeholder': 'Password', "class": "input_form"}),
         label=False
     )
+    class Meta:
+        model = MyUser
+        fields = ('username', 'password')
+        
 
 class UserPasswordResetForm(PasswordResetForm):
     email = forms.CharField(
