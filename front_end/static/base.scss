@@ -24,7 +24,7 @@ body {
 
 .tabs {
   width: 100%;
-  margin-bottom: 25px;
+  margin-bottom: 10px;
   border-bottom: 1px solid $grey1;
   text-align: center;
 
@@ -111,7 +111,7 @@ body {
     margin-bottom: 23px;
     text-align: center;
     text-indent: 6px;
-    letter-spacing: 4px;
+    letter-spacing: 2px;
     text-transform: uppercase;
     color: $blue;
 
@@ -134,8 +134,10 @@ body {
 
   .text {
     p {
-      text-align: justify;
-      font-size: 14px;
+      text-align: center;
+      font-size: 13px;
+      letter-spacing: normal;
+      color: $blue;
     }
   }
 
