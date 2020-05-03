@@ -1,21 +1,22 @@
 {% extends "base.html" %}
-{% load bootstrap4 %}
-
 {% block content %}
-<div class="login">
-    <h1><a href="{% url 'home' %}">FUNDS</a></h1>
-    
-    <div class="tabs">
-        <a href="{% url 'registration:login' %}"><span class="tab">Sign in</span></a>
-        <a href="{% url 'registration:signup' %}"><span class="tab active">Sign up</span></a>
-    </div>
 
-    <div class="input_form">
-        <form method="POST">
-            {% csrf_token %}
-            {{ form.as_table }}
-            <input type="submit" class="confirm-button" value="Sign up">
-        </form>
+<div class="unauthenticated-view">
+    <div class="login">
+        <h1><a href="{% url 'home' %}">FUNDS</a></h1>
+        
+        <div class="tabs">
+            <a href="{% url 'registration:login' %}"><span class="tab">Sign in</span></a>
+            <a href="{% url 'registration:signup' %}"><span class="tab active">Sign up</span></a>
+        </div>
+
+        <div class="input_form">
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_table }}
+                <input type="submit" class="confirm-button" value="Sign up">
+            </form>
+        </div>
     </div>
 </div>
 {% endblock  %} 

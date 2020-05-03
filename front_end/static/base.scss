@@ -22,6 +22,19 @@ body {
   background-color: $bg;
 } 
 
+.warning-messages {
+  position: relative;
+  justify-content: center;
+  display: flex;
+  z-index: 1000;
+  top: 50px; 
+}
+
+.unauthenticated-view {
+  justify-content: center;
+  display: flex;
+}
+
 .tabs {
   width: 100%;
   margin-bottom: 10px;
@@ -97,12 +110,13 @@ body {
 
 
 .login {
+  position: fixed;
+  top: 180px;
   border: 1px solid #dadada;
   width: 330px;
   height: 410px;
 
   padding: 50px 50px;
-  margin: 200px auto;
   background-color: white;
 
   h1 {
