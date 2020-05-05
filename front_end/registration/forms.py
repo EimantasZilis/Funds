@@ -5,22 +5,31 @@ from django.contrib.auth.forms import (
     SetPasswordForm,
     UserCreationForm
 )
+from django.core.validators import EmailValidator
 from django.forms.widgets import EmailInput, PasswordInput, TextInput 
 
 from .models import MyUser
 
+
+def field_attrs(placeholder=None):
+    """
+    Generate field attributes:
+     - class: 'input_form'
+     - sets 'required' flag
+    Optional placeholder cam also be given.
+    """
+    attributes = {"class": "input_form", "required": True}
+    if placeholder is not None:
+        attributes["placeholder"] = placeholder
+    return attributes
+
 class UserCreateForm(UserCreationForm):
-    email = forms.CharField(
-        widget=EmailInput(attrs={'placeholder':'Email', "class": "input_form"}),
-        label=False
-    )
+    email = forms.CharField(widget=EmailInput(attrs=field_attrs("Email")))
     password1 = forms.CharField(
-        widget=forms.PasswordInput(attrs={'placeholder': 'Password', "class": "input_form"}),
-        label=False
+        widget=forms.PasswordInput(attrs=field_attrs("Password"))
     )
     password2 = forms.CharField(
-        widget=forms.PasswordInput(attrs={'placeholder': 'Password confirmation', "class": "input_form"}),
-        label=False
+        widget=forms.PasswordInput(attrs=field_attrs("Password confirmation"))
     )
     class Meta:
         model = MyUser
@@ -29,12 +38,11 @@ class UserCreateForm(UserCreationForm):
 
 class UserLoginForm(AuthenticationForm):
     username = forms.CharField(
-        widget=EmailInput(attrs={'placeholder':'Email', "class": "input_form"}),
-        label=False
+        widget=TextInput(attrs=field_attrs("Email")),
+        validators=[EmailValidator],
     )
     password = forms.CharField(
-        widget=PasswordInput(attrs={'placeholder': 'Password', "class": "input_form"}),
-        label=False
+        widget=PasswordInput(attrs=field_attrs("Password"))
     )
     class Meta:
         model = MyUser
@@ -43,16 +51,14 @@ class UserLoginForm(AuthenticationForm):
 
 class UserPasswordResetForm(PasswordResetForm):
     email = forms.CharField(
-        widget=EmailInput(attrs={'placeholder':'Email', "class": "input_form"}),
-        label=False
+        widget=TextInput(attrs=field_attrs("Email")),
+        validators=[EmailValidator],
     )
 
 class UserPasswordResetConfirmForm(SetPasswordForm):
     new_password1 = forms.CharField(
-        widget=forms.PasswordInput(attrs={'placeholder': 'Password', "class": "input_form"}),
-        label=False
+        widget=forms.PasswordInput(attrs=field_attrs("Password"))
     )
     new_password2 = forms.CharField(
-        widget=forms.PasswordInput(attrs={'placeholder': 'Password confirmation', "class": "input_form"}),
-        label=False
+        widget=forms.PasswordInput(attrs=field_attrs("Password confirmation"))
     )
