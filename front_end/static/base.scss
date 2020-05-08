@@ -22,12 +22,14 @@ body {
   background-color: $bg;
 } 
 
-.warning-messages {
+.notifications {
   position: relative;
   justify-content: center;
-  display: flex;
   z-index: 1000;
-  top: 50px; 
+  margin-bottom: 0;
+  display: flex; 
+  font-size: 14px;
+  text-align: center;
 }
 
 .unauthenticated-view {
