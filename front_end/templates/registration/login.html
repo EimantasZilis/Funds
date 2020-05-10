@@ -10,13 +10,11 @@
             <a href="{% url 'registration:signup' %}"><span class="tab">Sign up</span></a>
         </div>
 
-        <div class="input_form">
-            <form method="POST" novalidate>
-                {% csrf_token %}
-                {% include "_form.html" %}
-                <input type="submit" class="confirm-button" value="Sign in">
-            </form>
-        </div>
+        <form method="POST" class="input_form" novalidate>
+            {% csrf_token %}
+            {% include "_form.html" %}
+            <input type="submit" class="confirm-button" value="Sign in">
+        </form>
 
         <div class="password-reset">
             <p><a href="{% url 'registration:reset_password' %}">Forgot your password?</a></p>
