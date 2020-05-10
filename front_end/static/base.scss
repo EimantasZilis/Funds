@@ -68,6 +68,9 @@ body {
   }
 }
 
+.form-group {
+  position: relative;
+}
 
 .input_form {
   input {
@@ -80,6 +83,7 @@ body {
     color: $grey3;
     font-size: 14px;  
     border: 1px solid $grey1;
+    border-radius: 0px;
 
     &:focus{
       outline: none;
