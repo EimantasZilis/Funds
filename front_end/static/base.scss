@@ -13,6 +13,8 @@ $blue: #263238;
 $grey1: #d9d9d9;
 $grey2: #8d8d8d;
 $grey3: #505050;
+// $error-background: #e83e4ef0;
+$error-background: #d61124c7;
 
 
 body {
@@ -31,6 +33,38 @@ body {
   font-size: 14px;
   text-align: center;
 }
+
+// Field validation popover CSS
+.popover {
+  font-family: $body-font;
+  font-size: 13px;
+  border-radius: 2px;
+  border: 0px solid $error-background;;
+  background-color: $error-background;
+  font-weight: bold;
+  
+  &-body{
+    color: white;
+    padding: 7px;
+  }
+}
+
+// Field validation popover - remove arrow pointers
+.bs-popover {
+  &-right > .arrow {
+    visibility: hidden;
+  }
+  &-left > .arrow {
+    visibility: hidden;
+  }
+  &-top > .arrow {
+    visibility: hidden;
+  }
+  &-bottom > .arrow {
+    visibility: hidden;
+  }
+}
+
 
 .unauthenticated-view {
   justify-content: center;
