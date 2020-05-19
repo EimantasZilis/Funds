@@ -1,9 +1,12 @@
 <!DOCTYPE html>
+
 {% load static %}
+{% load bootstrap4 %}
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Base</title>
+    <title>Funds</title>
 
      <!-- Bootstrap -->
      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -21,15 +24,20 @@
 
     <!-- glyphicon -->
     <script src="https://kit.fontawesome.com/bc35442461.js" crossorigin="anonymous"></script>
+    
+    <!-- Local js -->
+    <script src="{% static 'base.js' %}"></script>
 
 </head>
 <body>
     {% if user.is_authenticated %}
         {% include "_navbar.html" %}
     {% endif %}
-    <div class="container">
-        {% block content %}
-        {% endblock %}
-    </div>
+
+    {% include "_messages.html" %}
+
+    {% block content %}
+    {% endblock %}
+
 </body>
 </html> 

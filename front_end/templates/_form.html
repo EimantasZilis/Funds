@@ -1,0 +1,9 @@
+{% for field in form %}
+    {% if field.errors %}
+        <span data-toggle="popover" data-content="{% for error in field.errors %}{{ error }}{% endfor %}">
+            {{ field }}
+        </span>
+    {% else %}
+        {{ field }}
+    {% endif %}
+{% endfor %}

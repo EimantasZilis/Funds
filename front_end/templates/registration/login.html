@@ -1,26 +1,25 @@
 {% extends "base.html" %}
-{% load bootstrap4 %}
-
 {% block content %}
-<div class="login">
-    <h1><a href="{% url 'home' %}">FUNDS</a></h1>
-    
-    <div class="tabs">
-        <a href="{% url 'registration:login' %}"><span class="tab active">Sign in</span></a>
-        <a href="{% url 'registration:signup' %}"><span class="tab">Sign up</span></a>
-    </div>
 
-    <div class="input_form">
-        <form method="POST">
+<div class="unauthenticated-view">
+    <div class="login">
+        <h1><a href="{% url 'home' %}">FUNDS</a></h1>
+        
+        <div class="tabs">
+            <a href="{% url 'registration:login' %}"><span class="tab active">Sign in</span></a>
+            <a href="{% url 'registration:signup' %}"><span class="tab">Sign up</span></a>
+        </div>
+
+        <form method="POST" class="input_form" novalidate>
             {% csrf_token %}
-            {{ form.as_table }}
+            {% include "_form.html" %}
             <input type="submit" class="confirm-button" value="Sign in">
         </form>
-    </div>
 
-    <div class="password-reset">
-        <p><a href="{% url 'registration:reset_password' %}">Forgot your password?</a></p>
-    </div>
+        <div class="password-reset">
+            <p><a href="{% url 'registration:reset_password' %}">Forgot your password?</a></p>
+        </div>
 
+    </div>
 </div>
 {% endblock  %} 
