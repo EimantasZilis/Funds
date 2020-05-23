@@ -21,8 +21,12 @@ Alternatively, you can find [instructions](https://sass-lang.com/install) on how
 ```ln -s -f ../../hooks/pre-commit .git/hooks/pre-commit```
 
 ## To do
-1. Apply isort/autoflake/black to current python files
+### High priority
 1. Simplify CSS
-1. Send emails when resetting passwords
 1. Write tests
+
+### Medium priority
+1. Send emails when resetting passwords
+
+### Low priority
 1. Make it mobile friendly
