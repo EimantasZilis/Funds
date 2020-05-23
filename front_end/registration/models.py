@@ -1,5 +1,6 @@
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
-from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
+
 
 """
 This was copied from https://docs.djangoproject.com/en/3.0/topics/auth/customizing/#a-full-example
@@ -18,7 +19,7 @@ class MyUserManager(BaseUserManager):
         birth and password.
         """
         if not email:
-            raise ValueError('Users must have an email address')
+            raise ValueError("Users must have an email address")
 
         user = self.model(email=self.normalize_email(email))
         user.set_password(password)
@@ -37,17 +38,13 @@ class MyUserManager(BaseUserManager):
 
 
 class MyUser(AbstractBaseUser):
-    email = models.EmailField(
-        verbose_name='email',
-        max_length=255,
-        unique=True,
-    )
+    email = models.EmailField(verbose_name="email", max_length=255, unique=True,)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 
     objects = MyUserManager()
 
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = "email"
 
     def __str__(self):
         return self.email

@@ -3,10 +3,10 @@ from django.contrib.auth.forms import (
     AuthenticationForm,
     PasswordResetForm,
     SetPasswordForm,
-    UserCreationForm
+    UserCreationForm,
 )
 from django.core.validators import EmailValidator
-from django.forms.widgets import EmailInput, PasswordInput, TextInput 
+from django.forms.widgets import EmailInput, PasswordInput, TextInput
 
 from .models import MyUser
 
@@ -23,6 +23,7 @@ def field_attrs(placeholder=None):
         attributes["placeholder"] = placeholder
     return attributes
 
+
 class UserCreateForm(UserCreationForm):
     email = forms.CharField(widget=EmailInput(attrs=field_attrs("Email")))
     password1 = forms.CharField(
@@ -31,29 +32,28 @@ class UserCreateForm(UserCreationForm):
     password2 = forms.CharField(
         widget=forms.PasswordInput(attrs=field_attrs("Password confirmation"))
     )
+
     class Meta:
         model = MyUser
-        fields = ('email', 'password1', 'password2')
+        fields = ("email", "password1", "password2")
 
 
 class UserLoginForm(AuthenticationForm):
     username = forms.CharField(
-        widget=TextInput(attrs=field_attrs("Email")),
-        validators=[EmailValidator],
+        widget=TextInput(attrs=field_attrs("Email")), validators=[EmailValidator],
     )
-    password = forms.CharField(
-        widget=PasswordInput(attrs=field_attrs("Password"))
-    )
+    password = forms.CharField(widget=PasswordInput(attrs=field_attrs("Password")))
+
     class Meta:
         model = MyUser
-        fields = ('username', 'password')
-        
+        fields = ("username", "password")
+
 
 class UserPasswordResetForm(PasswordResetForm):
     email = forms.CharField(
-        widget=TextInput(attrs=field_attrs("Email")),
-        validators=[EmailValidator],
+        widget=TextInput(attrs=field_attrs("Email")), validators=[EmailValidator],
     )
+
 
 class UserPasswordResetConfirmForm(SetPasswordForm):
     new_password1 = forms.CharField(

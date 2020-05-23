@@ -15,18 +15,17 @@ Including another URLconf
 """
 import debug_toolbar
 from django.conf import settings
-from django.urls import include, path
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
 
 from front_end import views
 
 urlpatterns = [
     path("", views.HomePage.as_view(), name="home"),
-    path('admin/', admin.site.urls),
-    path('registration/', include('registration.urls', namespace='registration')),
-    path('registration/', include('django.contrib.auth.urls')),
+    path("admin/", admin.site.urls),
+    path("registration/", include("registration.urls", namespace="registration")),
+    path("registration/", include("django.contrib.auth.urls")),
 ]
 
 if settings.DEBUG:
-    urlpatterns.append(path('__debug__/', include(debug_toolbar.urls)))
+    urlpatterns.append(path("__debug__/", include(debug_toolbar.urls)))
