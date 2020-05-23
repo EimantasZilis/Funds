@@ -7,8 +7,11 @@ dependencies:
   - pip==20.0.2                   # MIT
   - pip:
     - argon2-cffi                 # MIT
+    - autoflake==1.3.1            # MIT
     - bcrypt==3.1.7               # Apache-2.0
+    - black==19.10b0              # MIT
     - django==3.0.3               # BSD
     - django-bootstrap4==1.1.1    # BSD
     - django-braces==1.14.0       # BSD
     - django-debug-toolbar==2.2   # BSD
+    - isort==4.3.21               # MIT

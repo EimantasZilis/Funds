@@ -15,11 +15,14 @@ Alternatively, you can find [instructions](https://sass-lang.com/install) on how
 
 
 ### Compile CSS
-`sass front_end/static/base.scss front_end/static/base.css`
+```sass front_end/static/base.scss front_end/static/base.css```
+
+### Git hooks
+```ln -s -f ../../hooks/pre-commit .git/hooks/pre-commit```
 
 ## To do
-1. Write git hooks
-1. Change generic error message colour
+1. Apply isort/autoflake/black to current python files
 1. Simplify CSS
+1. Send emails when resetting passwords
 1. Write tests
 1. Make it mobile friendly
