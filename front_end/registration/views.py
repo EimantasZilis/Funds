@@ -28,15 +28,14 @@ class UserPasswordResetView(SuccessMessageMixin, PasswordResetView):
     template_name = "registration/password_reset_form.html"
     success_url = reverse_lazy("registration:login")
     success_message = mark_safe(
-        "We’ve emailed you instructions for resetting your password. "
-        "You should receive them shortly.<br>"
-        "If you don’t receive an email, please make sure you’ve entered "
+        "We’ve emailed you instructions for resetting your password.<br>"
+        "If you don’t receive an email, make sure you’ve entered "
         "the correct email and check your spam folder."
     )
 
 
-class UserPasswordResetConfirmView(PasswordResetConfirmView):
+class UserPasswordResetConfirmView(SuccessMessageMixin, PasswordResetConfirmView):
     form_class = registration_forms.UserPasswordResetConfirmForm
     success_url = reverse_lazy("registration:login")
     template_name = "registration/password_reset_confirm.html"
-    success_message = "Your password has been reset. You can login now."
+    success_message = mark_safe("Your password has been reset. You can login now.")
