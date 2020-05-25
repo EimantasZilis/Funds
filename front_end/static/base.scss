@@ -1,26 +1,28 @@
 // Fonts
 $body-font: 'Lato', sans-serif;
-$body-font-size: 14;
+
+$font-size-small: 11px;
+$font-size-button: 12px;
+$font-size-mid: 13px;
+$font-size-body: 14px;
+$font-size-brand: 20px;
 
 // Colour definitions
-$colour-text: black;
-$colour-border: #797979;
-$colour-active: #f5f4f4;
-
-$bg: #f8f8f8;
-$white: #ffffff;
-$blue: #263238;
-$grey1: #d9d9d9;
-$grey2: #8d8d8d;
-$grey3: #505050;
-$error-background: #ce2334c7;
+$colour-blue: #263238;
+$colour-white: #ffffff;
+$colour-grey0: #f8f8f8;
+$colour-grey1: #d9d9d9;
+$colour-grey2: #8d8d8d;
+$colour-grey3: #505050;
+$colour-black: black;
+$colour-error: #ce2334c7;
 
 
 body {
-  background: white;
+  background: $colour-white;
   font-family: $body-font;
-  font-size: $body-font-size;
-  background-color: $bg;
+  font-size: $font-size-body;
+  background-color: $colour-grey0;
 } 
 
 .notifications {
@@ -29,25 +31,25 @@ body {
   z-index: 1000;
   margin-bottom: 0;
   display: flex; 
-  font-size: 14px;  
+  font-size: $font-size-body;
   text-align: center;
   border-radius: 0;
 }
 
 .alert-danger {
   color: white;
-  background-color: $error-background;
-  border-color: $error-background;
+  background-color: $colour-error;
+  border-color: $colour-error;
   font-weight: bold;
 }
 
 // Field validation popover CSS
 .popover {
   font-family: $body-font;
-  font-size: 13px;
+  font-size: $font-size-mid;
   border-radius: 2px;
-  border: 0px solid $error-background;;
-  background-color: $error-background;
+  border: 0px solid $colour-error;
+  background-color: $colour-error;
   font-weight: bold;
   
   &-body{
@@ -81,14 +83,14 @@ body {
 .tabs {
   width: 100%;
   margin-bottom: 10px;
-  border-bottom: 1px solid $grey1;
+  border-bottom: 1px solid $colour-grey1;
   text-align: center;
 
   a{
-    font-size: 11px;
+    font-size: $font-size-small;
     text-decoration: none;
     text-transform: uppercase;
-    color: $grey1;
+    color: $colour-grey1;
 
     .tab {
       display: inline-block;
@@ -96,21 +98,17 @@ body {
       padding: 20px 15px 10px;
       cursor: pointer;
       letter-spacing: 0;
-      border-bottom: 1px solid $grey1;
+      border-bottom: 1px solid $colour-grey1;
 
       &.active {
-        border-bottom: 1px solid $blue;
-        color: $blue;
+        border-bottom: 1px solid $colour-blue;
+        color: $colour-blue;
       }
       &:hover {
-        color: $blue;
+        color: $colour-blue;
       }
     }
   }
-}
-
-.form-group {
-  position: relative;
 }
 
 .input_form {
@@ -121,14 +119,14 @@ body {
     height: 40px;
     width: 100%;
 
-    color: $grey3;
-    font-size: 14px;  
-    border: 1px solid $grey1;
+    color: $colour-grey3;
+    font-size: $font-size-body;  
+    border: 1px solid $colour-grey1;
     border-radius: 0px;
 
     &:focus{
       outline: none;
-      border: 1px solid $grey2;
+      border: 1px solid $colour-grey2;
     }
   }
 
@@ -139,22 +137,37 @@ body {
     width: 100%;
     height: 40px;
 
-    font-size: 12px;
+    font-size: $font-size-button;
     line-height: 9px;
     letter-spacing: 2px;
     text-transform: uppercase;
 
-    color: $blue;
-    border: 1px solid $blue;
+    color: $colour-blue;
+    border: 1px solid $colour-blue;
     background: transparent;
 
     &:hover {
-        background-color: $blue;
-        color: $white;
+        background-color: $colour-blue;
+        color: $colour-white;
     }
   }
 }
 
+.brand {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 23px;
+  text-align: center;
+  text-indent: 6px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: $colour-blue;
+
+  a {
+    text-decoration: None;
+    color: inherit;
+  }
+}
 
 .login {
   position: fixed;
@@ -166,57 +179,17 @@ body {
   padding: 50px 50px;
   background-color: white;
 
-  h1 {
-    font-size: 28px;
-    font-weight: 700;
-    margin-bottom: 23px;
-    text-align: center;
-    text-indent: 6px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: $blue;
-
-    a {
-      text-decoration: None;
-      color: inherit;
-    }
-  }
-
-
-  h2 {
-    
-    font-size: 16px;
-    text-align: center;
-    color: $blue;
-
-    width: 100%;
-    margin-bottom: 20px;
-  }
-
-  .text {
-    p {
-      text-align: center;
-      font-size: 13px;
-      letter-spacing: normal;
-      color: $blue;
-    }
-  }
-
   .password-reset {
     text-align: center;
-
-    p {
-      position: relative;
-      font-size: 12px;
-  
       a {  
-        color: $grey3;
+        position: relative;
+        font-size: $font-size-mid;
+        color: $colour-grey3;
         &:hover{
-          color: $blue;
+          color: $colour-blue;
           text-decoration: underline;
         }
       }
-    }
   }
   
 }
@@ -234,7 +207,7 @@ body {
 
 .navbar.navbar-clean {
   // Navbar background colours
-  border-bottom: 1px solid $colour-border;
+  border-bottom: 1px solid $colour-grey2;
   background-color: white;
 
   .nav-link{
@@ -243,16 +216,16 @@ body {
   }
 
   .navbar-brand{
-    font-size: 20px;
+    font-size: $font-size-brand;
     font-weight: bold;
-    color: $colour-text;
+    color: $colour-black;
     margin-right: 25px;
     margin-left: 23px;
   }
 
   a {
     // Navbar link colour
-    color: $colour-text;
+    color: $colour-black;
   }
   
   a i {
@@ -276,7 +249,7 @@ body {
   position: relative;
 
   &-menu {
-    font-size: 14px;
+    font-size: $font-size-body;
     position: absolute;
     z-index: 1000;
   
@@ -289,10 +262,9 @@ body {
     min-width: 200px;
     padding: 5px 0;
     margin: 8px 0 0;
-    
-    border-left: 1px solid $colour-border;
-    border-right: 1px solid $colour-border;
-    border-bottom: 1px solid $colour-border;
+    border-left: 1px solid $colour-grey2;
+    border-right: 1px solid $colour-grey2;
+    border-bottom: 1px solid $colour-grey2;
     border-radius: 3px;
 
     &-right {
@@ -308,7 +280,7 @@ body {
 
   &-menu > a:hover{
     // Hovered dropdown
-    background: $colour-active;
+    background: $colour-grey0;
     color:black;
   }
 }

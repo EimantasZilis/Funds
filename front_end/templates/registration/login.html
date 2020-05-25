@@ -3,7 +3,7 @@
 
 <div class="unauthenticated-view">
     <div class="login">
-        <h1><a href="{% url 'home' %}">FUNDS</a></h1>
+        <div class="brand"><a href="{% url 'home' %}">FUNDS</a></div>
         
         <div class="tabs">
             <a href="{% url 'registration:login' %}"><span class="tab active">Sign in</span></a>
@@ -17,7 +17,7 @@
         </form>
 
         <div class="password-reset">
-            <p><a href="{% url 'registration:reset_password' %}">Forgot your password?</a></p>
+            <a href="{% url 'registration:reset_password' %}">Forgot your password?</a>
         </div>
 
     </div>
