@@ -31,10 +31,10 @@
 </head>
 <body>
     {% if user.is_authenticated %}
-        {% include "_navbar.html" %}
+        {% include "core/_navbar.html" %}
     {% endif %}
 
-    {% include "_messages.html" %}
+    {% include "core/_messages.html" %}
 
     {% block content %}
     {% endblock %}
