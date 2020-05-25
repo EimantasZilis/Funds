@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="unauthenticated-view">
-    <div class="login">
-        <h1><a href="{% url 'home' %}">FUNDS</a></h1>
+<div class="unauthenticated">
+    <div class="unauthenticated-view">
+        <div class="brand"><a href="{% url 'home' %}">FUNDS</a></div>
         
         <div class="tabs">
             <a href="{% url 'registration:login' %}"><span class="tab">Sign in</span></a>
@@ -11,7 +11,6 @@
         </div>
 
         <form method="POST" class="input_form" novalidate>
-            {% csrf_token %}
             {% include "_form.html" %}
             <input type="submit" class="confirm-button" value="Sign up">
         </form>

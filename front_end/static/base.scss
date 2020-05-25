@@ -1,117 +1,50 @@
 // Fonts
 $body-font: 'Lato', sans-serif;
-$body-font-size: 14;
+
+$font-size-small: 11px;
+$font-size-button: 12px;
+$font-size-mid: 13px;
+$font-size-body: 14px;
+$font-size-brand: 20px;
 
 // Colour definitions
-$colour-text: black;
-$colour-border: #797979;
-$colour-active: #f5f4f4;
-
-$bg: #f8f8f8;
-$white: #ffffff;
-$blue: #263238;
-$grey1: #d9d9d9;
-$grey2: #8d8d8d;
-$grey3: #505050;
-$error-background: #ce2334c7;
+$colour-blue: #263238;
+$colour-white: #ffffff;
+$colour-grey0: #f8f8f8;
+$colour-grey1: #d9d9d9;
+$colour-grey2: #8d8d8d;
+$colour-grey3: #505050;
+$colour-black: black;
+$colour-error: #ce2334c7;
 
 
 body {
-  background: white;
+  background: $colour-white;
+  background-color: $colour-grey0;
+
   font-family: $body-font;
-  font-size: $body-font-size;
-  background-color: $bg;
+  font-size: $font-size-body;
 } 
 
-.notifications {
-  position: relative;
-  justify-content: center;
-  z-index: 1000;
-  margin-bottom: 0;
-  display: flex; 
-  font-size: 14px;  
-  text-align: center;
-  border-radius: 0;
-}
 
-.alert-danger {
-  color: white;
-  background-color: $error-background;
-  border-color: $error-background;
-  font-weight: bold;
-}
-
-// Field validation popover CSS
-.popover {
-  font-family: $body-font;
-  font-size: 13px;
-  border-radius: 2px;
-  border: 0px solid $error-background;;
-  background-color: $error-background;
-  font-weight: bold;
+.brand {
+  font-size: $font-size-brand;
+  font-weight: 700;
   
-  &-body{
-    color: white;
-    padding: 7px;
-  }
-}
-
-// Field validation popover - remove arrow pointers
-.bs-popover {
-  &-right > .arrow {
-    visibility: hidden;
-  }
-  &-left > .arrow {
-    visibility: hidden;
-  }
-  &-top > .arrow {
-    visibility: hidden;
-  }
-  &-bottom > .arrow {
-    visibility: hidden;
-  }
-}
-
-
-.unauthenticated-view {
-  justify-content: center;
-  display: flex;
-}
-
-.tabs {
-  width: 100%;
-  margin-bottom: 10px;
-  border-bottom: 1px solid $grey1;
   text-align: center;
+  text-indent: 6px;
+  text-transform: uppercase;
 
-  a{
-    font-size: 11px;
-    text-decoration: none;
-    text-transform: uppercase;
-    color: $grey1;
-
-    .tab {
-      display: inline-block;
-      margin-bottom: -1px;
-      padding: 20px 15px 10px;
-      cursor: pointer;
-      letter-spacing: 0;
-      border-bottom: 1px solid $grey1;
-
-      &.active {
-        border-bottom: 1px solid $blue;
-        color: $blue;
-      }
-      &:hover {
-        color: $blue;
-      }
-    }
+  letter-spacing: 2px;
+  margin-bottom: 23px;
+  color: $colour-blue;
+ 
+  a {
+    text-decoration: None;
+    color: inherit;
   }
 }
 
-.form-group {
-  position: relative;
-}
 
 .input_form {
   input {
@@ -121,14 +54,14 @@ body {
     height: 40px;
     width: 100%;
 
-    color: $grey3;
-    font-size: 14px;  
-    border: 1px solid $grey1;
+    color: $colour-grey3;
+    font-size: $font-size-body;  
+    border: 1px solid $colour-grey1;
     border-radius: 0px;
 
     &:focus{
       outline: none;
-      border: 1px solid $grey2;
+      border: 1px solid $colour-grey2;
     }
   }
 
@@ -139,102 +72,111 @@ body {
     width: 100%;
     height: 40px;
 
-    font-size: 12px;
+    font-size: $font-size-button;
     line-height: 9px;
     letter-spacing: 2px;
     text-transform: uppercase;
 
-    color: $blue;
-    border: 1px solid $blue;
+    color: $colour-blue;
+    border: 1px solid $colour-blue;
     background: transparent;
 
     &:hover {
-        background-color: $blue;
-        color: $white;
+        background-color: $colour-blue;
+        color: $colour-white;
     }
   }
 }
 
 
-.login {
-  position: fixed;
-  top: 180px;
-  border: 1px solid #dadada;
-  width: 330px;
-  height: 410px;
+.tabs {
+  width: 100%;
+  margin-bottom: 10px;
+  border-bottom: 1px solid $colour-grey1;
+  text-align: center;
 
-  padding: 50px 50px;
-  background-color: white;
-
-  h1 {
-    font-size: 28px;
-    font-weight: 700;
-    margin-bottom: 23px;
-    text-align: center;
-    text-indent: 6px;
-    letter-spacing: 2px;
+  a{
+    font-size: $font-size-small;
+    text-decoration: none;
     text-transform: uppercase;
-    color: $blue;
+    color: $colour-grey1;
 
-    a {
-      text-decoration: None;
-      color: inherit;
+    .tab {
+      display: inline-block;
+      margin-bottom: -1px;
+      padding: 20px 15px 10px;
+      cursor: pointer;
+      letter-spacing: 0;
+      border-bottom: 1px solid $colour-grey1;
+
+      &.active {
+        border-bottom: 1px solid $colour-blue;
+        color: $colour-blue;
+      }
+      &:hover {
+        color: $colour-blue;
+      }
     }
   }
+}
 
 
-  h2 {
-    
-    font-size: 16px;
-    text-align: center;
-    color: $blue;
+.unauthenticated {
+  justify-content: center;
+  display: flex;
 
-    width: 100%;
-    margin-bottom: 20px;
+  &-view {
+    position: fixed;
+
+    top: 180px;
+    width: 330px;
+    height: 410px;
+    padding: 50px 50px;
+
+    border: 1px solid #dadada;
+    background-color: white;
   }
 
-  .text {
-    p {
-      text-align: center;
-      font-size: 13px;
-      letter-spacing: normal;
-      color: $blue;
-    }
+  .brand {
+    font-size: 28px;
   }
 
   .password-reset {
     text-align: center;
+    margin-top: -5px;    
 
-    p {
+    a {  
       position: relative;
-      font-size: 12px;
+      font-size: $font-size-mid;
+      color: $colour-grey3;
   
-      a {  
-        color: $grey3;
-        &:hover{
-          color: $blue;
-          text-decoration: underline;
-        }
+      &:hover{
+        color: $colour-blue;
+        text-decoration: underline;
       }
     }
   }
-  
 }
 
 
-.fas {
+.notifications {
+  display: flex;
   position: relative;
-  display: table-cell;
+  justify-content: center;
+
+  z-index: 1000;
+   
+  font-size: $font-size-body;
   text-align: center;
-  vertical-align: middle;
-  font-size: 20px;
-  padding: 0 5px 0 5px;
+
+  border-radius: 0;
+  margin-bottom: 0;
 }
 
 
 .navbar.navbar-clean {
   // Navbar background colours
-  border-bottom: 1px solid $colour-border;
+  border-bottom: 1px solid $colour-grey2;
   background-color: white;
 
   .nav-link{
@@ -243,16 +185,16 @@ body {
   }
 
   .navbar-brand{
-    font-size: 20px;
+    font-size: $font-size-brand;
     font-weight: bold;
-    color: $colour-text;
+    color: $colour-black;
     margin-right: 25px;
     margin-left: 23px;
   }
 
   a {
     // Navbar link colour
-    color: $colour-text;
+    color: $colour-black;
   }
   
   a i {
@@ -276,23 +218,24 @@ body {
   position: relative;
 
   &-menu {
-    font-size: 14px;
     position: absolute;
-    z-index: 1000;
-  
-    top: 100%;
-    width: 100%;
-    left: 0;
-
     display: none;
     float: left;
-    min-width: 200px;
+    z-index: 1000;
+  
     padding: 5px 0;
     margin: 8px 0 0;
-    
-    border-left: 1px solid $colour-border;
-    border-right: 1px solid $colour-border;
-    border-bottom: 1px solid $colour-border;
+
+    top: 100%;
+    width: 100%;
+    min-width: 200px;
+    left: 0;
+
+    font-size: $font-size-body;
+  
+    border-left: 1px solid $colour-grey2;
+    border-right: 1px solid $colour-grey2;
+    border-bottom: 1px solid $colour-grey2;
     border-radius: 3px;
 
     &-right {
@@ -308,7 +251,47 @@ body {
 
   &-menu > a:hover{
     // Hovered dropdown
-    background: $colour-active;
-    color:black;
+    background: $colour-grey0;
+    color: $colour-black;
+  }
+}
+
+
+.alert-danger {
+  color: $colour-white;
+  background-color: $colour-error;
+  border-color: $colour-error;
+  font-weight: bold;
+}
+
+// Field validation popover CSS
+.popover {
+  font-family: $body-font;
+  font-size: $font-size-mid;
+  font-weight: bold;
+
+  border-radius: 1px;
+  border: 0px solid $colour-error;
+  background-color: $colour-error;
+  
+  &-body{
+    color: $colour-white;
+    padding: 7px;
+  }
+}
+
+// Field validation popover - remove arrow pointers
+.bs-popover {
+  &-right > .arrow {
+    visibility: hidden;
+  }
+  &-left > .arrow {
+    visibility: hidden;
+  }
+  &-top > .arrow {
+    visibility: hidden;
+  }
+  &-bottom > .arrow {
+    visibility: hidden;
   }
 }
