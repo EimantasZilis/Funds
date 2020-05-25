@@ -22,7 +22,7 @@ Alternatively, you can find [instructions](https://sass-lang.com/install) on how
 
 ## To do
 ### High priority
-1. Simplify CSS
+1. Move some templates into folders
 1. Write tests
 
 ### Medium priority
