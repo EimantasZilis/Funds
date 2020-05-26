@@ -22,7 +22,6 @@ Alternatively, you can find [instructions](https://sass-lang.com/install) on how
 
 ## To do
 ### High priority
-1. Make sure password reset emails are using `password_reset.email.html`
 1. Write tests
 
 ### Medium priority
