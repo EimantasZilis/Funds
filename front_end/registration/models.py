@@ -21,6 +21,9 @@ class MyUserManager(BaseUserManager):
         if not email:
             raise ValueError("Users must have an email address")
 
+        if not password:
+            raise ValueError("Users cannot have a blank password")
+
         user = self.model(email=self.normalize_email(email))
         user.set_password(password)
         user.save(using=self._db)
@@ -31,6 +34,12 @@ class MyUserManager(BaseUserManager):
         Creates and saves a superuser with the given email, date of
         birth and password.
         """
+        if not email:
+            raise ValueError("Superusers must have an email address")
+
+        if not password:
+            raise ValueError("Users cannot have a blank password")
+
         user = self.create_user(email, password=password)
         user.is_admin = True
         user.save(using=self._db)
