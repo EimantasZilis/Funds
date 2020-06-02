@@ -1,5 +1,8 @@
 from django.contrib.auth import get_user_model
+from django.db.utils import IntegrityError
 from django.test import TestCase
+
+from registration.models import MyUser
 
 
 class MyUserManagerTests(TestCase):
@@ -56,3 +59,43 @@ class MyUserManagerTests(TestCase):
     def test_create_superuser_blank_password(self):
         with self.assertRaises(ValueError):
             self.create_superuser(email=self.superuser_email, password="")
+
+
+class TestMyUser(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.email = "abcd@test.com"
+
+    def test_user_defaults(self):
+        user = MyUser.objects.create(email=self.email)
+        self.assertEqual(user.email, self.email)
+        self.assertEqual(user.is_active, True)
+        self.assertEqual(user.is_admin, False)
+
+    def test_duplicate_email_fail(self):
+        MyUser.objects.create(email=self.email)
+        with self.assertRaises(IntegrityError):
+            MyUser.objects.create(email=self.email)
+
+    def test_is_active(self):
+        user = MyUser.objects.create(email=self.email, is_active=False)
+        self.assertEqual(user.is_active, False)
+
+    def test_is_staff(self):
+        user = MyUser.objects.create(email=self.email, is_admin=True)
+        self.assertEqual(user.is_staff, True)
+
+    def test_is_staff(self):
+        user = MyUser.objects.create(email=self.email, is_admin=True)
+
+    def test_has_perm(self):
+        user = MyUser.objects.create(email=self.email)
+        self.assertEqual(user.has_perm(), True)
+
+    def test_has_module_perm(self):
+        user = MyUser.objects.create(email=self.email)
+        self.assertEqual(user.has_module_perms(), True)
+
+    def test_str(self):
+        user = MyUser.objects.create(email=self.email)
+        self.assertEqual(str(user), self.email)
