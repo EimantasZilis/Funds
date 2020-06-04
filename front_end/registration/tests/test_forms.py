@@ -64,3 +64,8 @@ class TestUserLoginForm(TestCase):
         data = {"username": "jesus.christ@heaven.com", "password": "I like bagel"}
         form = UserLoginForm(data=data)
         self.assertFalse(form.is_valid())
+
+    def test_login_form_blank_email_and_password(self):
+        data = {"username": "", "password": ""}
+        form = UserLoginForm(data=data)
+        self.assertFalse(form.is_valid())
