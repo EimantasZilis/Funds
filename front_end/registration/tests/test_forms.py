@@ -1,7 +1,12 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 
-from registration.forms import UserLoginForm, UserPasswordResetForm, field_attrs
+from registration.forms import (
+    UserLoginForm,
+    UserPasswordResetConfirmForm,
+    UserPasswordResetForm,
+    field_attrs,
+)
 
 
 class FieldAttrs(TestCase):
@@ -75,9 +80,8 @@ class TestUserPasswordResetForm(TestCase):
     @classmethod
     def setUpTestData(cls):
         cls.email = "user@test.com"
-        cls.password = "abcd123456"
         cls.user = get_user_model().objects.create_user(
-            email=cls.email, password=cls.password
+            email=cls.email, password="abcd123456"
         )
 
     def test_valid_email(self):
@@ -93,4 +97,44 @@ class TestUserPasswordResetForm(TestCase):
     def test_blank_email(self):
         data = {"email": ""}
         form = UserPasswordResetForm(data=data)
+        self.assertFalse(form.is_valid())
+
+
+class TestUserPasswordResetConfirmForm(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = get_user_model().objects.create_user(
+            email="user@test.com", password="abcd123456"
+        )
+
+    def test_matching_new_passwords(self):
+        new_password = "abcdefg12"
+        data = {"new_password1": new_password, "new_password2": new_password}
+        form = UserPasswordResetConfirmForm(self.user, data=data)
+        self.assertTrue(form.is_valid())
+
+    def test_short_matching_new_passwords(self):
+        new_password = "ab12"
+        data = {"new_password1": new_password, "new_password2": new_password}
+        form = UserPasswordResetConfirmForm(self.user, data=data)
+        self.assertFalse(form.is_valid())
+
+    def test_different_new_passwords(self):
+        data = {"new_password1": "Abcdefg12", "new_password2": "ab1234cdef"}
+        form = UserPasswordResetConfirmForm(self.user, data=data)
+        self.assertFalse(form.is_valid())
+
+    def test_new_password1_blank(self):
+        data = {"new_password1": "", "new_password2": "ab1234cdef"}
+        form = UserPasswordResetConfirmForm(self.user, data=data)
+        self.assertFalse(form.is_valid())
+
+    def test_new_password2_blank(self):
+        data = {"new_password1": "ab1234cdef", "new_password2": ""}
+        form = UserPasswordResetConfirmForm(self.user, data=data)
+        self.assertFalse(form.is_valid())
+
+    def test_blank_passwords(self):
+        data = {"new_password1": "", "new_password2": ""}
+        form = UserPasswordResetConfirmForm(self.user, data=data)
         self.assertFalse(form.is_valid())
