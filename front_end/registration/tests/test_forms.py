@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 
-from registration.forms import UserLoginForm, field_attrs
+from registration.forms import UserLoginForm, UserPasswordResetForm, field_attrs
 
 
 class FieldAttrs(TestCase):
@@ -68,4 +68,29 @@ class TestUserLoginForm(TestCase):
     def test_login_form_blank_email_and_password(self):
         data = {"username": "", "password": ""}
         form = UserLoginForm(data=data)
+        self.assertFalse(form.is_valid())
+
+
+class TestUserPasswordResetForm(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.email = "user@test.com"
+        cls.password = "abcd123456"
+        cls.user = get_user_model().objects.create_user(
+            email=cls.email, password=cls.password
+        )
+
+    def test_valid_email(self):
+        data = {"email": self.email}
+        form = UserPasswordResetForm(data=data)
+        self.assertTrue(form.is_valid())
+
+    def test_invalid_email(self):
+        data = {"email": "111@abc.com"}
+        form = UserPasswordResetForm(data=data)
+        self.assertTrue(form.is_valid())
+
+    def test_blank_email(self):
+        data = {"email": ""}
+        form = UserPasswordResetForm(data=data)
         self.assertFalse(form.is_valid())
