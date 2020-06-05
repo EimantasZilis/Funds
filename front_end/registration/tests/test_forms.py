@@ -27,13 +27,13 @@ class FieldAttrs(TestCase):
         self.assertEqual(attributes, expected_attrs)
 
 
-class TestUserLoginForm(TestCase):
+class TestUserCreateForm(TestCase):
     @classmethod
     def setUpTestData(cls):
-        cls.email = "user@test.com"
-        cls.password = "abcd123456"
+        cls.email = "user1@test.com"
+        cls.password = "abcd123456efg"
 
-    def test_create_user_valid(self):
+    def test_create_valid_user(self):
         data = {
             "email": self.email,
             "password1": self.password,
