@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.test import TestCase
 
 from registration.forms import (
+    UserCreateForm,
     UserLoginForm,
     UserPasswordResetConfirmForm,
     UserPasswordResetForm,
@@ -24,6 +25,70 @@ class FieldAttrs(TestCase):
         }
         attributes = field_attrs(placeholder=placeholder)
         self.assertEqual(attributes, expected_attrs)
+
+
+class TestUserLoginForm(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.email = "user@test.com"
+        cls.password = "abcd123456"
+
+    def test_create_user_valid(self):
+        data = {
+            "email": self.email,
+            "password1": self.password,
+            "password2": self.password,
+        }
+        form = UserCreateForm(data=data)
+        self.assertTrue(form.is_valid())
+
+    def test_create_user_short_passwords(self):
+        data = {
+            "email": self.email,
+            "password1": self.password[:4],
+            "password2": self.password[:4],
+        }
+        form = UserCreateForm(data=data)
+        self.assertFalse(form.is_valid())
+
+    def test_create_user_different_passwords(self):
+        data = {
+            "email": self.email,
+            "password1": self.password,
+            "password2": f"{self.password}_big",
+        }
+        form = UserCreateForm(data=data)
+        self.assertFalse(form.is_valid())
+
+    def test_create_user_first_blank_password(self):
+        data = {"email": self.email, "password1": "", "password2": self.password}
+        form = UserCreateForm(data=data)
+        self.assertFalse(form.is_valid())
+
+    def test_create_user_second_blank_password(self):
+        data = {"email": self.email, "password1": self.password, "password2": ""}
+        form = UserCreateForm(data=data)
+        self.assertFalse(form.is_valid())
+
+    def test_create_user_blank_passwords(self):
+        data = {"email": self.email, "password1": "", "password2": ""}
+        form = UserCreateForm(data=data)
+        self.assertFalse(form.is_valid())
+
+    def test_create_user_blank_email(self):
+        data = {"email": "", "password1": self.password, "password2": self.password}
+        form = UserCreateForm(data=data)
+        self.assertFalse(form.is_valid())
+
+    def test_create_user_all_blank(self):
+        data = {"email": "", "password1": "", "password2": ""}
+        form = UserCreateForm(data=data)
+        self.assertFalse(form.is_valid())
+
+    def test_crete_user_not_email(self):
+        data = {"email": "abde", "password1": self.password, "password2": self.password}
+        form = UserCreateForm(data=data)
+        self.assertFalse(form.is_valid())
 
 
 class TestUserLoginForm(TestCase):
