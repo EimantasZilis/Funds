@@ -22,13 +22,11 @@ class TestSigninView(TestCase):
     def test_signin_view_url_exists(self):
         response = self.client.get("/registration/login/")
         self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "registration/login.html")
 
     def test_signin_view_url_accessible_by_name(self):
         response = self.client.get(reverse("login"))
         self.assertEqual(response.status_code, 200)
-
-    def test_signin_view_uses_correct_template(self):
-        response = self.client.get(reverse("login"))
         self.assertTemplateUsed(response, "registration/login.html")
 
     def test_signin_view_post_blank_email(self):
