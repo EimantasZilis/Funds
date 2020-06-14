@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from django.test import TestCase
+from django.test import Client, TestCase
 from django.urls import reverse
 
 from registration.views import (
@@ -19,6 +19,10 @@ class TestSigninView(TestCase):
             email=cls.email, password=cls.password
         )
 
+    @classmethod
+    def setUp(cls):
+        cls.client = Client()
+
     def test_signin_view_url_exists(self):
         response = self.client.get("/registration/login/")
         self.assertEqual(response.status_code, 200)
@@ -29,24 +33,20 @@ class TestSigninView(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "registration/login.html")
 
-    def test_signin_view_post_blank_email(self):
-        self.client.login(email=self.email, password=self.password)
+    def test_signin_view_post_blank_password(self):
         response = self.client.post(reverse("login"), {"username": self.email})
         self.assertFormError(response, "form", "password", "This field is required.")
 
     def test_signin_view_post_blank_email(self):
-        self.client.login(email=self.email, password=self.password)
         response = self.client.post(reverse("login"), {"password": self.password})
         self.assertFormError(response, "form", "username", "This field is required.")
 
     def test_signin_view_post_blank_email_password(self):
-        self.client.login(email=self.email, password=self.password)
         response = self.client.post(reverse("login"), {})
         self.assertFormError(response, "form", "username", "This field is required.")
         self.assertFormError(response, "form", "password", "This field is required.")
 
     def test_signin_view_post_invalid_email(self):
-        self.client.login(email=self.email, password=self.password)
         response = self.client.post(
             reverse("login"), {"username": "abcd123", "password": self.password}
         )
@@ -56,8 +56,7 @@ class TestSigninView(TestCase):
         )
         self.assertFormError(response, "form", None, error)
 
-    def test_signin_view_post_invalid_passwrd(self):
-        self.client.login(email=self.email, password=self.password)
+    def test_signin_view_post_invalid_password(self):
         response = self.client.post(
             reverse("login"), {"username": self.email, "password": "abcd"}
         )
@@ -68,7 +67,6 @@ class TestSigninView(TestCase):
         self.assertFormError(response, "form", None, error)
 
     def test_signin_view_success_redirect(self):
-        self.client.login(email=self.email, password=self.password)
         response = self.client.post(
             reverse("login"), {"username": self.email, "password": self.password}
         )
