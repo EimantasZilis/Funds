@@ -10,6 +10,97 @@ from registration.views import (
 )
 
 
+class TestSignupView(TestCase):
+    def test_signup_view_success_redirect(self):
+        data = {
+            "email": self.email,
+            "password1": self.password,
+            "password2": self.password,
+        }
+        response = self.client.post(reverse("registration:signup"), data)
+        self.assertRedirects(response, reverse("login"))
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.email = "test_user1@test.com"
+        cls.password = "abcd12efgh"
+        cls.signup_url = reverse("registration:signup")
+
+    @classmethod
+    def setUp(cls):
+        cls.client = Client()
+
+    def test_signup_view_url_exists(self):
+        response = self.client.get("/registration/signup/")
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "registration/signup.html")
+
+    def test_signup_view_url_accessible_by_name(self):
+        response = self.client.get(self.signup_url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "registration/signup.html")
+
+    def test_signup_view_post_blank_email(self):
+        data = {"password1": self.password, "password2": self.password}
+        response = self.client.post(self.signup_url, data)
+        self.assertFormError(response, "form", "email", "This field is required.")
+
+    def test_signup_view_post_blank_password1(self):
+        data = {"email": self.email, "password2": self.password}
+        response = self.client.post(self.signup_url, data)
+        self.assertFormError(response, "form", "password1", "This field is required.")
+
+    def test_signup_view_post_blank_passwor2(self):
+        data = {"email": self.email, "password1": self.password}
+        response = self.client.post(self.signup_url, data)
+        self.assertFormError(response, "form", "password2", "This field is required.")
+
+    def test_signup_view_post_blank_all(self):
+        response = self.client.post(self.signup_url, {})
+        self.assertFormError(response, "form", "email", "This field is required.")
+        self.assertFormError(response, "form", "password1", "This field is required.")
+        self.assertFormError(response, "form", "password2", "This field is required.")
+
+    def test_signup_view_post_invalid_email(self):
+        data = {
+            "email": "abcdefghijk",
+            "password1": self.password,
+            "password2": self.password,
+        }
+        response = self.client.post(self.signup_url, data)
+        self.assertFormError(response, "form", "email", "Enter a valid email address.")
+
+    def test_signup_view_post_invalid_passwords(self):
+        data = {
+            "email": self.email,
+            "password1": "abcdefghij",
+            "password2": "eeeeeeeee1",
+        }
+        response = self.client.post(self.signup_url, data)
+        error = "The two password fields didn’t match."
+        self.assertFormError(response, "form", "password2", error)
+
+    def test_signup_view_success_redirect(self):
+        data = {
+            "email": self.email,
+            "password1": self.password,
+            "password2": self.password,
+        }
+        response = self.client.post(self.signup_url, data)
+        self.assertRedirects(response, reverse("registration:login"))
+
+    def test_signup_create_existing_user(self):
+        get_user_model().objects.create_user(email=self.email, password=self.password)
+        data = {
+            "email": self.email,
+            "password1": self.password,
+            "password2": self.password,
+        }
+        response = self.client.post(self.signup_url, data)
+        error = "My user with this Email already exists."
+        self.assertFormError(response, "form", "email", error)
+
+
 class TestSigninView(TestCase):
     @classmethod
     def setUpTestData(cls):

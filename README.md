@@ -23,6 +23,7 @@ Alternatively, you can find [instructions](https://sass-lang.com/install) on how
 ## To do
 ### High priority
 1. Write tests
+1. Fix "My user with this Email already exists." error when creating existing user. Is it getting "My user" from class name?
 
 ### Medium priority
 1. Send emails when resetting passwords
