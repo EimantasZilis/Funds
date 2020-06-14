@@ -11,23 +11,11 @@ from registration.views import (
 
 
 class TestSignupView(TestCase):
-    def test_signup_view_success_redirect(self):
-        data = {
-            "email": self.email,
-            "password1": self.password,
-            "password2": self.password,
-        }
-        response = self.client.post(reverse("registration:signup"), data)
-        self.assertRedirects(response, reverse("login"))
-
     @classmethod
     def setUpTestData(cls):
         cls.email = "test_user1@test.com"
         cls.password = "abcd12efgh"
         cls.signup_url = reverse("registration:signup")
-
-    @classmethod
-    def setUp(cls):
         cls.client = Client()
 
     def test_signup_view_url_exists(self):
@@ -106,13 +94,10 @@ class TestSigninView(TestCase):
     def setUpTestData(cls):
         cls.email = "test_user@test.com"
         cls.password = "abcd12efgh"
+        cls.client = Client()
         cls.user = get_user_model().objects.create_user(
             email=cls.email, password=cls.password
         )
-
-    @classmethod
-    def setUp(cls):
-        cls.client = Client()
 
     def test_signin_view_url_exists(self):
         response = self.client.get("/registration/login/")
