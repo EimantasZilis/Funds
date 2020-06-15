@@ -17,6 +17,11 @@ class TestSignupView(TestCase):
         cls.password = "abcd12efgh"
         cls.signup_url = reverse("registration:signup")
         cls.client = Client()
+        cls.valid_data = {
+            "email": cls.email,
+            "password1": cls.password,
+            "password2": cls.password,
+        }
 
     def test_signup_view_url_exists(self):
         response = self.client.get("/registration/signup/")
@@ -69,37 +74,21 @@ class TestSignupView(TestCase):
         self.assertFormError(response, "form", "password2", error)
 
     def test_signup_view_success_redirect(self):
-        data = {
-            "email": self.email,
-            "password1": self.password,
-            "password2": self.password,
-        }
-        response = self.client.post(self.signup_url, data)
+        response = self.client.post(self.signup_url, self.valid_data)
         self.assertRedirects(response, reverse("registration:login"))
 
     def test_signup_create_existing_user(self):
         get_user_model().objects.create_user(email=self.email, password=self.password)
-        data = {
-            "email": self.email,
-            "password1": self.password,
-            "password2": self.password,
-        }
-        response = self.client.post(self.signup_url, data)
+        response = self.client.post(self.signup_url, self.valid_data)
         error = "My user with this Email already exists."
         self.assertFormError(response, "form", "email", error)
 
     def test_signup_create_messages(self):
-        data = {
-            "email": self.email,
-            "password1": self.password,
-            "password2": self.password,
-        }
-        response = self.client.post(self.signup_url, data, follow=True)
+        response = self.client.post(self.signup_url, self.valid_data, follow=True)
         message = list(response.context.get("messages"))[0]
+        alert_message = "Account created successfully. You can now login"
         self.assertEqual(message.tags, "alert-success")
-        self.assertEqual(
-            message.message, "Account created successfully. You can now login"
-        )
+        self.assertEqual(message.message, alert_message)
 
 
 class TestSigninView(TestCase):
@@ -108,6 +97,7 @@ class TestSigninView(TestCase):
         cls.email = "test_user@test.com"
         cls.password = "abcd12efgh"
         cls.client = Client()
+        cls.valid_data = {"username": cls.email, "password": cls.password}
         cls.user = get_user_model().objects.create_user(
             email=cls.email, password=cls.password
         )
@@ -136,9 +126,8 @@ class TestSigninView(TestCase):
         self.assertFormError(response, "form", "password", "This field is required.")
 
     def test_signin_view_post_invalid_email(self):
-        response = self.client.post(
-            reverse("login"), {"username": "abcd123", "password": self.password}
-        )
+        data = {"username": "abcd123", "password": self.password}
+        response = self.client.post(reverse("login"), data)
         error = (
             "Please enter a correct email and password. "
             "Note that both fields may be case-sensitive."
@@ -146,9 +135,8 @@ class TestSigninView(TestCase):
         self.assertFormError(response, "form", None, error)
 
     def test_signin_view_post_invalid_password(self):
-        response = self.client.post(
-            reverse("login"), {"username": self.email, "password": "abcd"}
-        )
+        data = {"username": self.email, "password": "abcd"}
+        response = self.client.post(reverse("login"), data)
         error = (
             "Please enter a correct email and password. "
             "Note that both fields may be case-sensitive."
@@ -156,9 +144,7 @@ class TestSigninView(TestCase):
         self.assertFormError(response, "form", None, error)
 
     def test_signin_view_success_redirect(self):
-        response = self.client.post(
-            reverse("login"), {"username": self.email, "password": self.password}
-        )
+        response = self.client.post(reverse("login"), self.valid_data)
         self.assertRedirects(response, reverse("home"))
 
     def test_signin_view_anonymous_get(self):
