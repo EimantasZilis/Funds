@@ -88,6 +88,19 @@ class TestSignupView(TestCase):
         error = "My user with this Email already exists."
         self.assertFormError(response, "form", "email", error)
 
+    def test_signup_create_messages(self):
+        data = {
+            "email": self.email,
+            "password1": self.password,
+            "password2": self.password,
+        }
+        response = self.client.post(self.signup_url, data, follow=True)
+        message = list(response.context.get("messages"))[0]
+        self.assertEqual(message.tags, "alert-success")
+        self.assertEqual(
+            message.message, "Account created successfully. You can now login"
+        )
+
 
 class TestSigninView(TestCase):
     @classmethod
