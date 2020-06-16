@@ -86,9 +86,8 @@ class TestSignupView(TestCase):
     def test_signup_create_messages(self):
         response = self.client.post(self.signup_url, self.valid_data, follow=True)
         message = list(response.context.get("messages"))[0]
-        alert_message = "Account created successfully. You can now login"
         self.assertEqual(message.tags, "alert-success")
-        self.assertEqual(message.message, alert_message)
+        self.assertEqual(message.message, SignupView.success_message)
 
 
 class TestSigninView(TestCase):
@@ -232,9 +231,8 @@ class TestSignupView(TestCase):
     def test_signup_create_messages(self):
         response = self.client.post(self.signup_url, self.valid_data, follow=True)
         message = list(response.context.get("messages"))[0]
-        alert_message = "Account created successfully. You can now login"
         self.assertEqual(message.tags, "alert-success")
-        self.assertEqual(message.message, alert_message)
+        self.assertEqual(message.message, SignupView.success_message)
 
 
 class TestUserPasswordResetView(TestCase):
@@ -261,3 +259,19 @@ class TestUserPasswordResetView(TestCase):
     def test_password_reset_view_post_blank_email(self):
         response = self.client.post(self.view_url, {"email": ""})
         self.assertFormError(response, "form", "email", "This field is required.")
+
+    def test_password_reset_view_post_invalid_email(self):
+        response = self.client.post(self.view_url, {"email": "abvd"}, follow=True)
+        message = list(response.context.get("messages"))[0]
+        self.assertEqual(message.tags, "alert-success")
+        self.assertEqual(message.message, UserPasswordResetView.success_message)
+
+    def test_password_reset_view_post_valid_email(self):
+        response = self.client.post(self.view_url, {"email": self.email}, follow=True)
+        message = list(response.context.get("messages"))[0]
+        self.assertEqual(message.tags, "alert-success")
+        self.assertEqual(message.message, UserPasswordResetView.success_message)
+
+    def test_password_reset_view_success_redirect(self):
+        response = self.client.post(self.view_url, {"email": self.email})
+        self.assertRedirects(response, reverse("login"))
