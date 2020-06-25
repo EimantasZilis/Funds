@@ -1,6 +1,10 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.shortcuts import resolve_url
 from django.test import Client, TestCase
 from django.urls import reverse
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
 
 from registration.views import (
     SigninView,
@@ -274,4 +278,50 @@ class TestUserPasswordResetView(TestCase):
 
     def test_password_reset_view_success_redirect(self):
         response = self.client.post(self.view_url, {"email": self.email})
+        self.assertRedirects(response, reverse("login"))
+
+
+class TestUserPasswordResetConfirmView(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.email = "test_user1@test.com"
+        cls.psw = "abcd12efgh"
+        cls.new_psw = "temptemp1234"
+
+        # Create user and get user.id in base64
+        cls.user = get_user_model().objects.create_user(
+            email=cls.email, password=cls.psw
+        )
+        cls.user_b64 = urlsafe_base64_encode(force_bytes(cls.user.pk))
+
+        # Create password reset token
+        token_generator = PasswordResetTokenGenerator()
+        cls.token = token_generator.make_token(cls.user)
+
+        cls.get_view_url = resolve_url(
+            "password_reset_confirm", cls.user_b64, cls.token
+        )
+        cls.post_view_url = f"/registration/reset/{cls.user_b64}/set-password/"
+
+    def test_password_reset_confirm_view_url_exists(self):
+        response = self.client.get(self.get_view_url)
+        self.assertRedirects(response, self.post_view_url)
+
+    def test_password_reset_view_url_accessible_by_name(self):
+        response = self.client.get(self.get_view_url)
+        self.assertRedirects(response, self.post_view_url)
+
+    def test_password_reset_confirm_view_template(self):
+        response = self.client.get(self.get_view_url, follow=True)
+        self.assertTemplateUsed(response, "registration/password_reset_confirm.html")
+
+    def test_password_reset_confirm_view_success_redirect(self):
+        self.client.get(self.post_view_url)
+
+        session = self.client.session
+        session["_password_reset_token"] = self.token
+        session.save()
+
+        valid_data = {"new_password1": self.new_psw, "new_password2": self.new_psw}
+        response = self.client.post(self.post_view_url, valid_data)
         self.assertRedirects(response, reverse("login"))
