@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.core import mail
 from django.shortcuts import resolve_url
 from django.test import Client, TestCase
 from django.urls import reverse
@@ -232,7 +233,7 @@ class TestSignupView(TestCase):
         error = "My user with this Email already exists."
         self.assertFormError(response, "form", "email", error)
 
-    def test_signup_create_messages(self):
+    def test_signup_success_message(self):
         response = self.client.post(self.signup_url, self.valid_data, follow=True)
         message = list(response.context.get("messages"))[0]
         self.assertEqual(message.tags, "alert-success")
@@ -280,6 +281,30 @@ class TestUserPasswordResetView(TestCase):
         response = self.client.post(self.view_url, {"email": self.email})
         self.assertRedirects(response, reverse("login"))
 
+    def test_password_reset_view_send_email(self):
+        response = self.client.post(self.view_url, {"email": self.email})
+        self.assertEqual(len(mail.outbox), 1)
+
+    def test_password_reset_view_non_existing_user_redirect(self):
+        response = self.client.post(
+            self.view_url, {"email": f"non-existing-{self.email}"}
+        )
+        self.assertRedirects(response, reverse("login"))
+
+    def test_password_reset_view_non_existing_user_success_message(self):
+        response = self.client.post(
+            self.view_url, {"email": f"non-existing-{self.email}"}, follow=True
+        )
+        message = list(response.context.get("messages"))[0]
+        self.assertEqual(message.tags, "alert-success")
+        self.assertEqual(message.message, UserPasswordResetView.success_message)
+
+    def test_password_reset_view_non_existing_user_dont_send_email(self):
+        response = self.client.post(
+            self.view_url, {"email": f"non-existing-{self.email}"}, follow=True
+        )
+        self.assertEqual(len(mail.outbox), 0)
+
 
 class TestUserPasswordResetConfirmView(TestCase):
     @classmethod
@@ -287,14 +312,13 @@ class TestUserPasswordResetConfirmView(TestCase):
         cls.email = "test_user1@test.com"
         cls.psw = "abcd12efgh"
         cls.new_psw = "temptemp1234"
+        cls.valid_data = {"new_password1": cls.new_psw, "new_password2": cls.new_psw}
 
-        # Create user and get user.id in base64
         cls.user = get_user_model().objects.create_user(
             email=cls.email, password=cls.psw
         )
         cls.user_b64 = urlsafe_base64_encode(force_bytes(cls.user.pk))
 
-        # Create password reset token
         token_generator = PasswordResetTokenGenerator()
         cls.token = token_generator.make_token(cls.user)
 
@@ -302,6 +326,12 @@ class TestUserPasswordResetConfirmView(TestCase):
             "password_reset_confirm", cls.user_b64, cls.token
         )
         cls.post_view_url = f"/registration/reset/{cls.user_b64}/set-password/"
+
+    def _init_session_token(self):
+        self.client.get(self.post_view_url)
+        session = self.client.session
+        session["_password_reset_token"] = self.token
+        session.save()
 
     def test_password_reset_confirm_view_url_exists(self):
         response = self.client.get(self.get_view_url)
@@ -315,13 +345,64 @@ class TestUserPasswordResetConfirmView(TestCase):
         response = self.client.get(self.get_view_url, follow=True)
         self.assertTemplateUsed(response, "registration/password_reset_confirm.html")
 
-    def test_password_reset_confirm_view_success_redirect(self):
-        self.client.get(self.post_view_url)
+    def test_password_reset_confirm_view_success_confirm_new_credentials(self):
+        # Try to login with new (incorrect) password
+        login_client = Client()
+        login_data = {"username": self.email, "password": self.new_psw}
+        login_response = login_client.post(reverse("login"), login_data)
+        error = (
+            "Please enter a correct email and password. "
+            "Note that both fields may be case-sensitive."
+        )
+        self.assertFormError(login_response, "form", None, error)
 
-        session = self.client.session
-        session["_password_reset_token"] = self.token
-        session.save()
+        # Reset password
+        self._init_session_token()
+        password_reset_response = self.client.post(self.post_view_url, self.valid_data)
+        self.assertRedirects(password_reset_response, reverse("login"))
 
-        valid_data = {"new_password1": self.new_psw, "new_password2": self.new_psw}
-        response = self.client.post(self.post_view_url, valid_data)
-        self.assertRedirects(response, reverse("login"))
+        # Try to login
+        login_client = Client()
+        login_response = login_client.post(reverse("login"), login_data)
+        self.assertRedirects(login_response, reverse("home"))
+
+    def test_password_reset_confirm_view_success_message(self):
+        self._init_session_token()
+        response = self.client.post(self.post_view_url, self.valid_data, follow=True)
+        message = list(response.context.get("messages"))[0]
+        self.assertEqual(message.tags, "alert-success")
+        self.assertEqual(message.message, UserPasswordResetConfirmView.success_message)
+
+    def test_password_reset_confirm_view_blank_password1(self):
+        self._init_session_token()
+        data = {"new_password1": "", "new_password2": self.new_psw}
+        response = self.client.post(self.post_view_url, data)
+        self.assertFormError(
+            response, "form", "new_password1", "This field is required."
+        )
+
+    def test_password_reset_confirm_view_blank_password2(self):
+        self._init_session_token()
+        data = {"new_password1": self.new_psw, "new_password2": ""}
+        response = self.client.post(self.post_view_url, data)
+        self.assertFormError(
+            response, "form", "new_password2", "This field is required."
+        )
+
+    def test_password_reset_confirm_view_blank_all(self):
+        self._init_session_token()
+        data = {"new_password1": "", "new_password2": ""}
+        response = self.client.post(self.post_view_url, data)
+        self.assertFormError(
+            response, "form", "new_password1", "This field is required."
+        )
+        self.assertFormError(
+            response, "form", "new_password2", "This field is required."
+        )
+
+    def test_password_reset_confirm_view_post_invalid_passwords(self):
+        self._init_session_token()
+        data = {"new_password1": "abcdefghij", "new_password2": "eeeeeeeee1"}
+        response = self.client.post(self.post_view_url, data)
+        error = "The two password fields didn’t match."
+        self.assertFormError(response, "form", "new_password2", error)
