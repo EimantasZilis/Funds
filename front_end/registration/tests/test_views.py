@@ -406,3 +406,13 @@ class TestUserPasswordResetConfirmView(TestCase):
         response = self.client.post(self.post_view_url, data)
         error = "The two password fields didn’t match."
         self.assertFormError(response, "form", "new_password2", error)
+
+    def test_password_reset_confirm_view_short_passwords(self):
+        self._init_session_token()
+        data = {"new_password1": "a", "new_password2": "a"}
+        response = self.client.post(self.post_view_url, data)
+        error = [
+            "This password is too short. It must contain at least 8 characters.",
+            "This password is too common.",
+        ]
+        self.assertFormError(response, "form", "new_password2", error)
