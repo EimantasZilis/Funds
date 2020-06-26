@@ -21,6 +21,9 @@ class MyUserManager(BaseUserManager):
         if not email:
             raise ValueError("Users must have an email address")
 
+        if not password:
+            raise ValueError("Users cannot have a blank password")
+
         user = self.model(email=self.normalize_email(email))
         user.set_password(password)
         user.save(using=self._db)
@@ -31,6 +34,12 @@ class MyUserManager(BaseUserManager):
         Creates and saves a superuser with the given email, date of
         birth and password.
         """
+        if not email:
+            raise ValueError("Superusers must have an email address")
+
+        if not password:
+            raise ValueError("Superusers cannot have a blank password")
+
         user = self.create_user(email, password=password)
         user.is_admin = True
         user.save(using=self._db)
@@ -38,7 +47,7 @@ class MyUserManager(BaseUserManager):
 
 
 class MyUser(AbstractBaseUser):
-    email = models.EmailField(verbose_name="email", max_length=255, unique=True,)
+    email = models.EmailField(verbose_name="email", unique=True,)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 
@@ -49,12 +58,12 @@ class MyUser(AbstractBaseUser):
     def __str__(self):
         return self.email
 
-    def has_perm(self, perm, obj=None):
+    def has_perm(self):
         "Does the user have a specific permission?"
         # Simplest possible answer: Yes, always
         return True
 
-    def has_module_perms(self, app_label):
+    def has_module_perms(self, app_label=None):
         "Does the user have permissions to view the app `app_label`?"
         # Simplest possible answer: Yes, always
         return True
