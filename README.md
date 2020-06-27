@@ -22,12 +22,10 @@ Alternatively, you can find [instructions](https://sass-lang.com/install) on how
 
 ## To do
 ### High priority
-1. Write tests
-1. Fix "My user with this Email already exists." error when creating existing user. Is it getting "My user" from class name?
 1. Opening password reset link multiple times. Give a warning saying that the link has expired and redirect to the login page?
 
 ### Medium priority
-1. Send emails when resetting passwords
 
 ### Low priority
+1. Send emails when resetting passwords
 1. Make it mobile friendly

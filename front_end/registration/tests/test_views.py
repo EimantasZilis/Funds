@@ -230,7 +230,7 @@ class TestSignupView(TestCase):
     def test_signup_create_existing_user(self):
         get_user_model().objects.create_user(email=self.email, password=self.password)
         response = self.client.post(self.signup_url, self.valid_data)
-        error = "My user with this Email already exists."
+        error = "User with this Email already exists."
         self.assertFormError(response, "form", "email", error)
 
     def test_signup_success_message(self):

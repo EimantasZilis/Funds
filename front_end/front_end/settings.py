@@ -142,7 +142,7 @@ INTERNAL_IPS = ["127.0.0.1"]
 EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 EMAIL_FILE_PATH = "temp/sent_emails"
 
-AUTH_USER_MODEL = "registration.MyUser"
+AUTH_USER_MODEL = "registration.User"
 
 MESSAGE_TAGS = {
     messages.DEBUG: "alert-info",
