@@ -8,7 +8,7 @@ from django.contrib.auth.forms import (
 from django.core.validators import EmailValidator
 from django.forms.widgets import EmailInput, PasswordInput, TextInput
 
-from .models import MyUser
+from .models import User
 
 
 def field_attrs(placeholder=None):
@@ -34,7 +34,7 @@ class UserCreateForm(UserCreationForm):
     )
 
     class Meta:
-        model = MyUser
+        model = User
         fields = ("email", "password1", "password2")
 
 
@@ -45,7 +45,7 @@ class UserLoginForm(AuthenticationForm):
     password = forms.CharField(widget=PasswordInput(attrs=field_attrs("Password")))
 
     class Meta:
-        model = MyUser
+        model = User
         fields = ("username", "password")
 
 
