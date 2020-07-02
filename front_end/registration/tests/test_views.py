@@ -333,6 +333,16 @@ class TestUserPasswordResetConfirmView(TestCase):
         session["_password_reset_token"] = self.token
         session.save()
 
+    def _invalid_user_base64(self):
+        last_char = self.user_b64[:-1]
+        new_char = "y" if last_char == "x" else "x"
+        return f"{self.user_b64[:-1]}{new_char}"
+
+    def _invalid_user_token(self):
+        last_char = self.token[:-1]
+        new_char = "y" if last_char == "x" else "x"
+        return f"{self.token[:-1]}{new_char}"
+
     def test_password_reset_confirm_view_url_exists(self):
         response = self.client.get(self.get_view_url)
         self.assertRedirects(response, self.post_view_url)
@@ -416,3 +426,33 @@ class TestUserPasswordResetConfirmView(TestCase):
             "This password is too common.",
         ]
         self.assertFormError(response, "form", "new_password2", error)
+
+    def test_password_reset_confirm_view_invalid_user_get_redirected(self):
+        invalid_u64 = self._invalid_user_base64()
+        url = resolve_url("password_reset_confirm", invalid_u64, self.token)
+        response = self.client.get(url)
+        self.assertRedirects(response, reverse("registration:login"))
+
+    def test_password_reset_confirm_view_invalid_token_get_redirected(self):
+        invalid_token = self._invalid_user_token()
+        url = resolve_url("password_reset_confirm", self.user_b64, invalid_token)
+        response = self.client.get(url)
+        self.assertRedirects(response, reverse("registration:login"))
+
+    def test_password_reset_confirm_view_invalid_user_redirect_get_message(self):
+        invalid_u64 = self._invalid_user_base64()
+        url = resolve_url("password_reset_confirm", invalid_u64, self.token)
+
+        response = self.client.get(url, follow=True)
+        message = list(response.context.get("messages"))[0]
+        self.assertEqual(message.tags, "alert-danger")
+        self.assertEqual(message.message, UserPasswordResetConfirmView.error_message)
+
+    def test_password_reset_confirm_view_invalid_token_get_message(self):
+        invalid_token = self._invalid_user_token()
+        url = resolve_url("password_reset_confirm", self.user_b64, invalid_token)
+
+        response = self.client.get(url, follow=True)
+        message = list(response.context.get("messages"))[0]
+        self.assertEqual(message.tags, "alert-danger")
+        self.assertEqual(message.message, UserPasswordResetConfirmView.error_message)

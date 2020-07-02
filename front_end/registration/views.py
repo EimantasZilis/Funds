@@ -1,11 +1,16 @@
+from django.contrib import messages
 from django.contrib.auth.views import (
     LoginView,
     PasswordResetConfirmView,
     PasswordResetView,
 )
 from django.contrib.messages.views import SuccessMessageMixin
+from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 from django.utils.safestring import mark_safe
+from django.views.decorators.cache import never_cache
+from django.views.decorators.debug import sensitive_post_parameters
 from django.views.generic import CreateView
 
 from registration import forms as registration_forms
@@ -38,4 +43,23 @@ class UserPasswordResetConfirmView(SuccessMessageMixin, PasswordResetConfirmView
     form_class = registration_forms.UserPasswordResetConfirmForm
     success_url = reverse_lazy("registration:login")
     template_name = "registration/password_reset_confirm.html"
-    success_message = mark_safe("Your password has been reset. You can login now.")
+    success_message = mark_safe("Your password has been reset")
+    error_message = mark_safe("Password reset link is not valid")
+
+    @method_decorator(sensitive_post_parameters())
+    @method_decorator(never_cache)
+    def dispatch(self, *args, **kwargs):
+        """
+        Redirect back to the login page with an warning
+        if the password reset link is invalid.
+        """
+
+        dispatch_return = super().dispatch(*args, **kwargs)
+
+        token = kwargs["token"]
+        valid_token = self.token_generator.check_token(self.user, token)
+        if valid_token or token == self.reset_url_token:
+            return dispatch_return
+        else:
+            messages.add_message(self.request, messages.ERROR, self.error_message)
+            return HttpResponseRedirect(reverse_lazy("registration:login"))
