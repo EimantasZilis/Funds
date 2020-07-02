@@ -1,4 +1,4 @@
-name: funds
+name: spending-tree
 channels:
   - anaconda
   - conda-forge

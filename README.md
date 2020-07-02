@@ -1,4 +1,4 @@
-# Funds
+# Spending Tree
 
 ## Installation instructions
 ### Install conda
@@ -22,7 +22,6 @@ Alternatively, you can find [instructions](https://sass-lang.com/install) on how
 
 ## To do
 ### High priority
-1. Opening password reset link multiple times. Give a warning saying that the link has expired and redirect to the login page?
 
 ### Medium priority
 

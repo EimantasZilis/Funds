@@ -32,16 +32,19 @@ body {
   font-weight: 700;
   
   text-align: center;
-  text-indent: 6px;
   text-transform: uppercase;
 
   letter-spacing: 2px;
-  margin-bottom: 23px;
   color: $colour-blue;
  
   a {
     text-decoration: None;
     color: inherit;
+  }
+
+  img {
+    max-width: 228px;
+    height: auto;
   }
 }
 
@@ -139,6 +142,7 @@ body {
 
   .brand {
     font-size: 28px;
+    margin-bottom: 23px;
   }
 
   .password-reset {
@@ -190,6 +194,12 @@ body {
     color: $colour-black;
     margin-right: 25px;
     margin-left: 23px;
+
+    img {
+      max-width: 145px;
+      height: auto;
+      margin-bottom: 4px;
+    }
   }
 
   a {
