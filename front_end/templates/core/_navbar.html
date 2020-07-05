@@ -4,38 +4,29 @@
     <a class="navbar-brand brand" href="{% url 'home' %}">
         <img src="{% static 'brand/logo/logo.svg' %}" alt="Logo">
     </a>
+
     <button class="navbar-toggler navbar-light" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-333"
         aria-controls="navbarSupportedContent-333" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
+
     <div class="collapse navbar-collapse" id="navbarSupportedContent-333">
-
-        {% if user.is_authenticated %}
+        {% if user.is_authenticated %}  
             <ul class="navbar-nav mr-auto nav-item">
-                <li class="nav-item"><a class="nav-link" href="">Dashboard</a></li>
                 <li class="nav-item"><a class="nav-link" href="">Accounts</a></li>
-                <li class="nav-item"><a class="nav-link" href="">Statements</a></li>
-                <li class="nav-item"><a class="nav-link" href="">Labels</a></li>
             </ul>
-        {% endif %}
-
-        <ul class="navbar-nav ml-auto nav-flex-icons">    
-            {% if user.is_authenticated %}
-                <li class="nav-item"><a class="nav-link" href="">Settings</a></li>
+            <ul class="navbar-nav ml-auto nav-flex-icons">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown">Profile</a>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-info" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown">{{ user.get_username }}</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="{% url 'registration:change_password' %}">Change password</a>
                         <a class="dropdown-item" href="{% url 'registration:logout' %}">Log Out</a>
                     </div>
                 </li>
-            {% else %}
-                <li class="nav-item"><a class="nav-link" href="{% url 'registration:login' %}">Log in</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'registration:signup' %}">Sign up</a></li>
-                <li class="nav-item"><a class="nav-link" href="{% url 'registration:reset_password' %}">Reset password</a></li>
-            {% endif %}
-        </ul>
+            </ul>
+        {% endif %}
     </div>
+
 </nav>
 
 <!-- Space -->
