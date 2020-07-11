@@ -21,7 +21,6 @@ $colour-error: #ce2334c7;
 
 body {
   background: $colour-white;
-  background-color: $colour-grey0;
 
   font-family: $body-font;
   font-size: $font-size-body;
@@ -51,12 +50,16 @@ body {
 
 
 .input_form {
+  padding: 10px 10px;
   input {
     display: block;
     margin-bottom: 10px;
+    margin-left: 30px;
     padding: 16px 13px;
+    
     height: 40px;
     width: 100%;
+    max-width: 300px;
 
     color: $colour-grey3;
     font-size: $font-size-body;  
@@ -92,6 +95,13 @@ body {
   }
 }
 
+.unauthenticated-view > .input_form {
+  padding: 0;
+  input {  
+    // Input form specific properties for unauthenticated views
+    margin-left: 0px;
+  }
+}
 
 .tabs {
   width: 100%;
@@ -181,7 +191,8 @@ body {
 
 .navbar.navbar-clean {
   // Navbar background colours
-  border-bottom: 1px solid $colour-grey2;
+  // border-bottom: 1px solid $colour-grey2;
+  border-bottom: 1px solid $colour-grey1;
   background-color: white;
 
   font-size: $font-size-body;
@@ -280,4 +291,19 @@ body {
   &-bottom > .arrow {
     visibility: hidden;
   }
+}
+
+.breadcrumb {
+  background-color: $colour-white;
+  border-radius: 0px;
+  padding: 10px 0px 10px 40px;
+  margin-bottom: 0;
+}
+
+.jumbotron {
+  background-color: $colour-white;
+  border-radius: 0px;
+  padding: 10px 0 10px 40px;
+  margin-top: 10px;
+  margin-bottom: 30px;
 }
