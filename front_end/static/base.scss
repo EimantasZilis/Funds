@@ -176,9 +176,12 @@ body {
 
 .notifications {
   display: flex;
-  position: relative;
+  position: fixed;
   justify-content: center;
 
+  width: 100%;
+  padding: 13px;
+  // min-height: 58px;
   z-index: 1000;
    
   font-size: $font-size-body;

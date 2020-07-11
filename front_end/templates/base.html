@@ -30,11 +30,11 @@
 
 </head>
 <body>
+    {% include "core/_messages.html" %}
+
     {% if user.is_authenticated %}
         {% include "core/_navbar.html" %}
     {% endif %}
-
-    {% include "core/_messages.html" %}
 
     <div class="container">
         {% block content %}
