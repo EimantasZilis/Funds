@@ -26,8 +26,8 @@ brew install sass/sass/sass
 ### Medium priority
 1. Change sqlite database to postgres
 
-
 ### Low priority
+1. Dockerise deployment
 1. Send emails when resetting passwords
 1. Make it mobile friendly
 1. Dockerise deployments
