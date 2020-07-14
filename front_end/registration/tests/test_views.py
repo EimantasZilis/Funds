@@ -10,6 +10,7 @@ from django.utils.http import urlsafe_base64_encode
 from registration.views import (
     SigninView,
     SignupView,
+    UserPasswordChangeView,
     UserPasswordResetConfirmView,
     UserPasswordResetView,
 )
@@ -266,6 +267,9 @@ class TestUserPasswordResetView(TestCase):
         self.assertFormError(response, "form", "email", "This field is required.")
 
     def test_password_reset_view_post_invalid_email(self):
+        # This is a weird one. It still accepts invalid
+        # password with incorrect email. EmailValidator
+        # isn't working for some reason?
         response = self.client.post(self.view_url, {"email": "abvd"}, follow=True)
         message = list(response.context.get("messages"))[0]
         self.assertEqual(message.tags, "alert-success")
@@ -305,6 +309,102 @@ class TestUserPasswordResetView(TestCase):
         )
         self.assertEqual(len(mail.outbox), 0)
 
+class TestUserPasswordChangeView(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.email = "test_user@test.com"
+        cls.old_password = "abcd12efgh"
+        cls.new_password = "efghi56789"
+        cls.client = Client()
+        cls.view_url = reverse("registration:change_password")
+        cls.user = get_user_model().objects.create_user(
+            email=cls.email, password=cls.old_password
+        )
+
+    def test_password_change_view_url_exists(self):
+        self.client.login(username=self.email, password=self.old_password)
+        response = self.client.get("/registration/change_password/")
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "registration/password_change_form.html")
+
+    def test_password_change_view_url_accessible_by_name(self):
+        self.client.login(username=self.email, password=self.old_password)
+        response = self.client.get(self.view_url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "registration/password_change_form.html")
+
+    def test_password_change_view_redirect_unauthenticated_users(self):
+        data = {"old_password": self.old_password, "new_password1": self.new_password, "new_password2": self.new_password}
+        response = self.client.get(self.view_url, follow=True)
+        self.assertRedirects(response, "/registration/login/?next=/registration/change_password/")
+
+    def test_password_change_view_post_blank_old_password(self):
+        self.client.login(username=self.email, password=self.old_password)
+        data = { "old_password": "", "new_password1": self.new_password, "new_password2": self.new_password}
+        response = self.client.post(self.view_url, data)
+        self.assertFormError(response, "form", "old_password", "This field is required.")
+
+    def test_password_change_view_post_blank_new_password1(self):
+        self.client.login(username=self.email, password=self.old_password)
+        data = {"old_password": self.old_password, "new_password1": "", "new_password2": self.new_password}
+        response = self.client.post(self.view_url, data)
+        self.assertFormError(response, "form", "new_password1", "This field is required.")
+
+    def test_password_change_view_post_blank_new_password2(self):
+        self.client.login(username=self.email, password=self.old_password)
+        data = {"old_password": self.old_password, "new_password1": self.new_password, "new_password2": ""}
+        response = self.client.post(self.view_url, data)
+        self.assertFormError(response, "form", "new_password2", "This field is required.")
+
+    def test_password_change_view_post_invalid_old_password(self):
+        self.client.login(username=self.email, password=self.old_password)
+        data = {"old_password": "111111111", "new_password1": self.new_password, "new_password2": self.new_password}
+        response = self.client.post(self.view_url, data, follow=True)
+        error = "Your old password was entered incorrectly. Please enter it again."
+        self.assertFormError(response, "form", "old_password", error)
+
+    def test_password_change_view_post_different_new_passwords(self):
+        self.client.login(username=self.email, password=self.old_password)
+        data = {"old_password": self.old_password, "new_password1": self.new_password, "new_password2": "11111eeee122"}
+        response = self.client.post(self.view_url, data, follow=True)
+        error = "The two password fields didn’t match."
+        self.assertFormError(response, "form", "new_password2", error)
+
+    def test_password_change_view_post_success_url(self):
+        self.client.login(username=self.email, password=self.old_password)
+        data = {"old_password": self.old_password, "new_password1": self.new_password, "new_password2": self.new_password}
+        response = self.client.post(self.view_url, data, follow=True)
+
+        message = list(response.context.get("messages"))[0]
+        self.assertEqual(message.tags, "alert-success")
+        self.assertEqual(message.message, UserPasswordChangeView.success_message)
+
+    def test_password_change_view_success_redirect(self):
+        self.client.login(username=self.email, password=self.old_password)
+        data = {"old_password": self.old_password, "new_password1": self.new_password, "new_password2": self.new_password}
+        response = self.client.post(self.view_url, data, follow=True)
+        self.assertRedirects(response, reverse("home"))
+
+    def test_password_change_view_confirm_new_credentials(self):
+        # Try to login with new (incorrect) password
+        incorrect_login_client = Client()
+        login_data = {"username": self.email, "password": self.new_password}
+        login_response = incorrect_login_client.post(reverse("login"), login_data)
+        error = (
+            "Please enter a correct email and password. "
+            "Note that both fields may be case-sensitive."
+        )
+        self.assertFormError(login_response, "form", None, error)
+
+        self.client.login(username=self.email, password=self.old_password)
+        data = {"old_password": self.old_password, "new_password1": self.new_password, "new_password2": self.new_password}
+        password_change_response = self.client.post(self.view_url, data, follow=True)
+        self.assertRedirects(password_change_response, reverse("home"))
+
+        # Try to login
+        login_client = Client()
+        login_response = login_client.post(reverse("login"), login_data)
+        self.assertRedirects(login_response, reverse("home"))
 
 class TestUserPasswordResetConfirmView(TestCase):
     @classmethod

@@ -64,7 +64,7 @@ class UserPasswordResetConfirmForm(SetPasswordForm):
         widget=forms.PasswordInput(attrs=field_attrs("Password confirmation"))
     )
 
-class UserPasswordResetForm(PasswordChangeForm):
+class UserPasswordChangeForm(PasswordChangeForm):
     old_password = forms.CharField(
         widget=forms.PasswordInput(attrs=field_attrs("Current password"))
     )
