@@ -27,6 +27,7 @@ brew install sass/sass/sass
 1. Change sqlite database to postgres
 
 ### Low priority
+1. Add proper description in README for Spending Tree
 1. Dockerise deployment
 1. Send emails when resetting passwords
 1. Make it mobile friendly

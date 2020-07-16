@@ -24,11 +24,8 @@
 
     <!-- glyphicon -->
     <script src="https://kit.fontawesome.com/bc35442461.js" crossorigin="anonymous"></script>
-    
-    <!-- Local js -->
-    <script src="{% static 'base.js' %}"></script>
-
 </head>
+
 <body>
     {% include "core/_messages.html" %}
 
@@ -36,10 +33,8 @@
         {% include "core/_navbar.html" %}
     {% endif %}
 
-    <div class="container">
-        {% block content %}
-        {% endblock %}
-    </div>
+    {% block content %}
+    {% endblock %}
 
 </body>
 </html> 
