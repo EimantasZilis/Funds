@@ -70,6 +70,10 @@ body {
     }
   }
 
+  .field {
+    display: flex;
+  }
+
   .error {
     padding: 7px 20px;
     height: 40px;
@@ -108,10 +112,6 @@ body {
 .unauthenticated-view > .input_form {
   display: grid;
 
-  .field {
-    display: flex;
-  }
-
   .error {
     position: absolute;
     right: -110px;
@@ -130,14 +130,6 @@ body {
 
   input {  
     margin-left: 0px;
-  }
-}
-
-.page > .input_form {
-  height: 40px;
-
-  .field {
-    display: flex;
   }
 }
 
