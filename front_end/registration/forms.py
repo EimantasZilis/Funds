@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import (
     AuthenticationForm,
+    PasswordChangeForm,
     PasswordResetForm,
     SetPasswordForm,
     UserCreationForm,
@@ -61,4 +62,15 @@ class UserPasswordResetConfirmForm(SetPasswordForm):
     )
     new_password2 = forms.CharField(
         widget=forms.PasswordInput(attrs=field_attrs("Password confirmation"))
+    )
+
+class UserPasswordChangeForm(PasswordChangeForm):
+    old_password = forms.CharField(
+        widget=forms.PasswordInput(attrs=field_attrs("Current password"))
+    )
+    new_password1 = forms.CharField(
+        widget=forms.PasswordInput(attrs=field_attrs("New password"))
+    )
+    new_password2 = forms.CharField(
+        widget=forms.PasswordInput(attrs=field_attrs("New password confirmation"))
     )

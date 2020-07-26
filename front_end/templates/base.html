@@ -24,17 +24,14 @@
 
     <!-- glyphicon -->
     <script src="https://kit.fontawesome.com/bc35442461.js" crossorigin="anonymous"></script>
-    
-    <!-- Local js -->
-    <script src="{% static 'base.js' %}"></script>
-
 </head>
+
 <body>
+    {% include "core/_messages.html" %}
+
     {% if user.is_authenticated %}
         {% include "core/_navbar.html" %}
     {% endif %}
-
-    {% include "core/_messages.html" %}
 
     {% block content %}
     {% endblock %}

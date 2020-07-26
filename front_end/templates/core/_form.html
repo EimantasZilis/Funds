@@ -1,10 +1,13 @@
 {% csrf_token %}
 {% for field in form %}
-    {% if field.errors %}
-        <span data-toggle="popover" data-content="{% for error in field.errors %}{{ error }}{% endfor %}">
-            {{ field }}
-        </span>
-    {% else %}
+    <span class="field">
         {{ field }}
-    {% endif %}
+        {% if field.errors %}
+            <div class="error">
+                {% for error in field.errors %}
+                    {{ error }}    
+                {% endfor %}
+            </div>
+        {% endif %}
+    </span>
 {% endfor %}

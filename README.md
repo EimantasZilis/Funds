@@ -8,11 +8,10 @@ Download the latest conda release from [here](https://www.anaconda.com/distribut
 Create a new environment and install install relevant packages by running:
 ```conda env create -f build-mac.yml```
 
-### Install sass
-For MacOS users, run
-```brew install sass/sass/sass```.
-Alternatively, you can find [instructions](https://sass-lang.com/install) on how to install it for other platforms.
-
+### Install brew packages (MacOS)
+```
+brew install sass/sass/sass
+```
 
 ### Compile CSS
 ```sass front_end/static/base.scss front_end/static/base.css```
@@ -22,9 +21,14 @@ Alternatively, you can find [instructions](https://sass-lang.com/install) on how
 
 ## To do
 ### High priority
+1. Fix field errors pushing out input fields
 
 ### Medium priority
+1. Change sqlite database to postgres
 
 ### Low priority
+1. Add proper description in README for Spending Tree
+1. Dockerise deployment
 1. Send emails when resetting passwords
 1. Make it mobile friendly
+1. Dockerise deployments

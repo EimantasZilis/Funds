@@ -4,6 +4,7 @@ from django.test import TestCase
 from registration.forms import (
     UserCreateForm,
     UserLoginForm,
+    UserPasswordChangeForm,
     UserPasswordResetConfirmForm,
     UserPasswordResetForm,
     field_attrs,
@@ -162,6 +163,79 @@ class TestUserPasswordResetForm(TestCase):
     def test_blank_email(self):
         data = {"email": ""}
         form = UserPasswordResetForm(data=data)
+        self.assertFalse(form.is_valid())
+
+class TestUserPasswordChangeForm(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.email = "user@test.com"
+        cls.current_password = "abcd123456"
+        cls.new_password = "efghi7890"
+        cls.user = get_user_model().objects.create_user(
+            email=cls.email, password=cls.current_password
+        )
+
+    def test_matching_new_passwords(self):
+        data = {
+            "old_password": self.current_password,
+            "new_password1": self.new_password,
+            "new_password2": self.new_password
+        }
+        form = UserPasswordChangeForm(self.user, data=data)
+        self.assertTrue(form.is_valid())
+
+    def test_short_matching_new_passwords(self):
+        data = {
+            "old_password": self.current_password,
+            "new_password1": "ab12",
+            "new_password2": "ab12"
+        }
+        form = UserPasswordChangeForm(self.user, data=data)
+        self.assertFalse(form.is_valid())
+
+    def test_different_new_passwords(self):
+        data = {
+            "old_password": self.current_password,
+            "new_password1": "1111111111",
+            "new_password2": self.new_password
+        }
+        form = UserPasswordChangeForm(self.user, data=data)
+        self.assertFalse(form.is_valid())
+
+    def test_current_password_blank(self):
+        data = {
+            "old_password": "",
+            "new_password1": self.new_password,
+            "new_password2": self.new_password
+        }
+        form = UserPasswordChangeForm(self.user, data=data)
+        self.assertFalse(form.is_valid())
+
+    def test_new_password1_blank(self):
+        data = {
+            "old_password": self.current_password,
+            "new_password1": "",
+            "new_password2": self.new_password
+        }
+        form = UserPasswordChangeForm(self.user, data=data)
+        self.assertFalse(form.is_valid())
+
+    def test_new_password2_blank(self):
+        data = {
+            "old_password": self.current_password,
+            "new_password1": self.new_password,
+            "new_password2": ""
+        }
+        form = UserPasswordChangeForm(self.user, data=data)
+        self.assertFalse(form.is_valid())
+
+    def test_blank_passwords(self):
+        data = {
+            "old_password": "",
+            "new_password1": "",
+            "new_password2": ""
+        }
+        form = UserPasswordResetConfirmForm(self.user, data=data)
         self.assertFalse(form.is_valid())
 
 

@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.views import (
     LoginView,
+    PasswordChangeView,
     PasswordResetConfirmView,
     PasswordResetView,
 )
@@ -38,6 +39,11 @@ class UserPasswordResetView(SuccessMessageMixin, PasswordResetView):
         "the correct email and check your spam folder."
     )
 
+class UserPasswordChangeView(SuccessMessageMixin, PasswordChangeView):
+    form_class = registration_forms.UserPasswordChangeForm
+    template_name = 'registration/password_change_form.html'
+    success_message = "Your password has been changed"
+    success_url = reverse_lazy("home")
 
 class UserPasswordResetConfirmView(SuccessMessageMixin, PasswordResetConfirmView):
     form_class = registration_forms.UserPasswordResetConfirmForm
@@ -50,7 +56,7 @@ class UserPasswordResetConfirmView(SuccessMessageMixin, PasswordResetConfirmView
     @method_decorator(never_cache)
     def dispatch(self, *args, **kwargs):
         """
-        Redirect back to the login page with an warning
+        Redirect back to the login page with a warning
         if the password reset link is invalid.
         """
 
