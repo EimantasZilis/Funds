@@ -51,11 +51,6 @@ body {
 
 .input_form {
   padding: 10px 10px;
-  height: 40px;
-
-  .field {
-    display: flex;
-  }
 
   input {
     padding: 16px 13px;
@@ -111,10 +106,38 @@ body {
 }
 
 .unauthenticated-view > .input_form {
-  padding: 0;
+  display: grid;
+
+  .field {
+    display: flex;
+  }
+
+  .error {
+    position: absolute;
+    right: -110px;
+    float: none;
+
+    padding: 7px 20px;
+    height: 40px;
+  
+    font-size: 13px;
+    font-weight: bold;  
+    border-radius: 1px;
+    border: 0px solid #ce2334c7;
+    background-color: #ce2334c7;
+    color: $colour-white;
+  }
+
   input {  
-    // Input form specific properties for unauthenticated views
     margin-left: 0px;
+  }
+}
+
+.page > .input_form {
+  height: 40px;
+
+  .field {
+    display: flex;
   }
 }
 
