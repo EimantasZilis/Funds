@@ -3,10 +3,13 @@
     <span class="field">
         {{ field }}
         {% if field.errors %}
-            <div class="error">
+            <div class="error error-{% if not user.is_authenticated %}un{% endif %}authenticated alert alert-dismissible fade show">
                 {% for error in field.errors %}
                     {{ error }}    
                 {% endfor %}
+               <button type="button" class="close" data-dismiss="alert" aria-label="Close" tabindex="-1">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
         {% endif %}
     </span>
