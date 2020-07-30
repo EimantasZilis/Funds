@@ -16,7 +16,7 @@ $colour-grey1: #d9d9d9;
 $colour-grey2: #8d8d8d;
 $colour-grey3: #505050;
 $colour-black: black;
-$colour-error: #ce2334c7;
+$colour-error: #dc4756;
 
 
 body {
@@ -78,9 +78,9 @@ body {
     height: 40px;
     padding: 10px 42px 10px 20px;
     font-size: 13px;
-    font-weight: bold;  
+    font-weight: bolder;  
     border-radius: 1px;
-    background-color: #ce2334c7;
+    background-color: $colour-error;
     color: $colour-white;
 
     &-unauthenticated {
@@ -121,6 +121,11 @@ body {
     padding: 8px 17px;
     font-size: 20px;
 } 
+
+.close {
+  text-shadow: none;
+  opacity: 1;
+}
 
 .tabs {
   width: 100%;
