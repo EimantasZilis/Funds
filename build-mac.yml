@@ -15,3 +15,4 @@ dependencies:
     - django-braces==1.14.0       # BSD
     - django-debug-toolbar==2.2   # BSD
     - isort==4.3.21               # MIT
+    - psycopg2==2.8.5             # LGLP
