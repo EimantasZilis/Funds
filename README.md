@@ -1,8 +1,10 @@
 # Spending Tree
 
 ## Installation instructions
-Download the latest conda release from [here](https://www.anaconda.com/distribution/) and run
+Download the latest conda release from [here](https://www.anaconda.com/distribution/).
+Populate settings in `.env` file and run the following 
 ```
+source .env
 bash install.sh
 ```
 
