@@ -3,17 +3,20 @@ channels:
   - anaconda
   - conda-forge
 dependencies:
-  - python>=3.7                   # PSF
+  - python>=3.8                   # PSF
   - pip==20.0.2                   # MIT
   - pip:
     - argon2-cffi                 # MIT
     - autoflake==1.3.1            # MIT
     - bcrypt==3.1.7               # Apache-2.0
     - black==19.10b0              # MIT
+    - click==7.1.2                # BSD-3
     - django==3.0.3               # BSD
     - django-bootstrap4==1.1.1    # BSD
     - django-braces==1.14.0       # BSD
     - django-debug-toolbar==2.2   # BSD
     - isort==4.3.21               # MIT
     - psycopg2==2.8.5             # LGLP
+    - psycopg2-binary==2.8.5      # LGPL
     - python-dotenv==0.14.0       # BSD
+    - PyYAML==5.1.2               # MIT

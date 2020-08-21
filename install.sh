@@ -1,13 +1,10 @@
 #!/usr/bin/env bash
 
 echo "Installing dependencies..."
-conda env create -f build-mac.yml
+conda env create -f environment.yml
 brew update
 brew install sass/sass/sass
 brew install postgresql
-
-echo "Starting Postgres..."
-brew services start postgres
 
 psql -U "$USER" -d postgres -c "CREATE USER ${POSTGRES_USER} WITH PASSWORD '${POSTGRES_PASSWORD}';"
 psql -U "$USER" -d postgres -c "CREATE DATABASE ${POSTGRES_DB} WITH OWNER "$USER" TEMPLATE template0 ENCODING 'UTF8';"
